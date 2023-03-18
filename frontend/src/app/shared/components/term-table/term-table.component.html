@@ -1,0 +1,10 @@
+<app-smart-table
+  (createdRow)="addTerm($event)"
+  (customAction)="openTerm($event)"
+  (editedRow)="patchEditedTerm($event)"
+  [search]="true"
+  [tableActions]="actions"
+  [tableColumns]="columns"
+  [tableData]="terms"
+  [tableHeaderHide]="false"
+></app-smart-table>

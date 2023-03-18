@@ -1,0 +1,50 @@
+<!-- <app-initial-reset-password></app-initial-reset-password> -->
+<div class="row">
+  <div class="col-5">
+    <app-card [cardTitle]="'Information'" [titleIcon]="'info'">
+      <div class="p-4">
+        <div class="row info-section">
+          <div class="col-6">
+            <app-fancy-form-input
+              [inputs]="nameInputs"
+              [model]="'user'"
+            ></app-fancy-form-input>
+          </div>
+          <div class="col-6">
+            <span class="font-weight-bold">{{ loggedUser?.accessID }}</span>
+            <div class="info-label">Wayne ID</div>
+          </div>
+        </div>
+        <div class="row info-section mt-4">
+          <div class="col-12">
+            <app-fancy-form-input
+              [inputs]="addressInputs"
+              [model]="'user'"
+            ></app-fancy-form-input>
+          </div>
+        </div>
+        <div class="row info-section mt-4">
+          <div class="col-6">
+            <app-fancy-form-input
+              [inputs]="telephoneInput"
+              [model]="'user'"
+            ></app-fancy-form-input>
+          </div>
+          <div class="col-6">
+            <span class="font-weight-bold">{{ loggedUser?.email }}</span>
+            <div class="info-label">Email</div>
+          </div>
+        </div>
+      </div>
+    </app-card>
+    <br />
+    <app-card [cardTitle]="'Messages'" [titleIcon]="'message'">
+      <app-messages></app-messages>
+    </app-card>
+  </div>
+  <div class="col-7">
+    <app-card [cardTitle]="'Active POW'" [titleIcon]="'event_note'">
+      <app-pow-viewer [role]="'student'"></app-pow-viewer>
+    </app-card>
+  </div>
+</div>

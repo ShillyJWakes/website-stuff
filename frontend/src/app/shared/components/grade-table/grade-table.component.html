@@ -1,0 +1,9 @@
+<app-smart-table
+  (createdRow)="addGrade($event)"
+  (editedRow)="patchGrade($event)"
+  [search]="true"
+  [tableActions]="actions"
+  [tableColumns]="columns"
+  [tableData]="grades"
+  [tableHeaderHide]="false"
+></app-smart-table>

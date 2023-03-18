@@ -1,0 +1,12 @@
+<ng-container *ngIf="tableTitle">
+  <hr />
+  <h4 class="table-title pl-3">{{ tableTitle }}</h4>
+</ng-container>
+<ng2-smart-table
+  (createConfirm)="createRow($event)"
+  (custom)="onCustom($event)"
+  (deleteConfirm)="deleteRow($event)"
+  (editConfirm)="editRow($event)"
+  [settings]="settings"
+  [source]="data"
+></ng2-smart-table>

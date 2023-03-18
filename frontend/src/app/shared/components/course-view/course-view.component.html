@@ -1,0 +1,52 @@
+<div class="row">
+  <div class="col-12">
+    <h4>
+      {{ course?.department }} {{ course?.courseNumber }} :
+      {{ course?.courseProfile }}
+    </h4>
+  </div>
+  <div class="col-12">
+    <hr />
+  </div>
+  <div class="col-4 course-txt">
+    <span class="font-weight-bold">Credits: </span>
+    {{ course?.numberOfCredits }}
+  </div>
+  <hr />
+  <div class="col-4 course-txt">
+    <span class="font-weight-bold">Co-requisite(s): </span>
+    <ul class="requisite-list">
+      <li *ngFor="let coReq of getRequisitesValues(course?.requisites, 'co')">
+        <span class="font-weight-bold"
+        >{{ coReq.childCourse.department }}
+          {{ coReq.childCourse.courseNumber }}</span
+        >
+        :{{ coReq.childCourse.courseProfile }}
+      </li>
+    </ul>
+  </div>
+  <div class="col-4 course-txt">
+    <span class="font-weight-bold">Pre-requisite(s): </span>
+    <ul class="requisite-list">
+      <li *ngFor="let coReq of getRequisitesValues(course?.requisites, 'pre')">
+        <span class="font-weight-bold"
+        >{{ coReq.childCourse.department }}
+          {{ coReq.childCourse.courseNumber }}</span
+        >
+        : {{ coReq.childCourse.courseProfile }}
+      </li>
+    </ul>
+  </div>
+  <div class="col-12">
+    <hr />
+  </div>
+  <div class="col-12 course-txt">
+    <span class="font-weight-bold header-txt">Course Description: </span>
+    <div>
+      <quill-view
+        [content]="course?.courseDescription"
+        theme="snow"
+      ></quill-view>
+    </div>
+  </div>
+</div>

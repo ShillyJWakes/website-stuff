@@ -1,0 +1,12 @@
+.main-container {
+  margin: 50px;
+  padding-left: 80px;
+  padding-top: 80px;
+}
+
+@media (max-width: 992px) {
+  .main-container {
+    padding-left: 0;
+    margin: 15px;
+  }
+}

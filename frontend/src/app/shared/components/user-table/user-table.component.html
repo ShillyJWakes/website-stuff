@@ -1,0 +1,23 @@
+<app-smart-table
+  [tableHeaderHide]="false"
+  [tableColumns]="columns"
+  [tableData]="allUsers"
+  [tableActions]="actions"
+  (customAction)="openUserInfo($event)"
+  (currentPage)="loadCurrentPage($event)"
+></app-smart-table>
+
+<app-modal
+  [icon]="'school'"
+  [modalId]="'edit-user'"
+  [modalTitle]="'Edit User'"
+  [openModal]="openModal"
+  (modalClosed)="closeModal($event)"
+>
+  <app-user-form [create]="false" [prefill]="openedUser"></app-user-form>
+  <hr />
+  <app-user-role-form
+    [create]="false"
+    [prefill]="openedUser"
+  ></app-user-role-form>
+</app-modal>

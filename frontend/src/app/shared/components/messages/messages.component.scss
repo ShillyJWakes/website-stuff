@@ -1,0 +1,20 @@
+@import "../../../../assets/theme";
+@import "~bootstrap/scss/bootstrap";
+
+
+.message-container{
+    max-height: 43vh;
+    overflow-y: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.message-container::-webkit-scrollbar {
+    display: none;
+  }
+
+.submit-container{
+
+    display:flex;
+    justify-content: right;
+}

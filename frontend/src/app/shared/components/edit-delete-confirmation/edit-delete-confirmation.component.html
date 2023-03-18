@@ -1,0 +1,19 @@
+<ngb-toast
+  *ngIf="confirmMessage?.show"
+  class="global-toast confirm-dialog"
+  header="{{ confirmMessage?.title }}"
+  (hidden)="dismiss()"
+  [autohide]="false"
+>
+  <div>
+    <div>
+      <p>{{ confirmMessage?.message }}</p>
+    </div>
+    <button type="button" class="btn btn-secondary" (click)="accept()">
+      {{ confirmMessage?.btnOkText }}
+    </button>
+    <button type="button" class="btn btn-secondary ml-2" (click)="dismiss()">
+      {{ confirmMessage?.btnCancelText }}
+    </button>
+  </div>
+</ngb-toast>

@@ -1,0 +1,37 @@
+@import "../../../../assets/theme";
+@import "~bootstrap/scss/bootstrap";
+
+::ng-deep .modal-dialog {
+  max-width: 100vh;
+  .modal-content {
+    border: none;
+  }
+}
+.modal-header {
+  border-bottom: 0;
+  .modal-header-icon {
+    color: theme-color('secondary');
+    font-size: 2.2em;
+    margin-right: 5px;
+  }
+  .modal-title {
+    font-size: 1.6em;
+    color: #ffffff;
+  }
+}
+.modal-footer {
+  border-top: none;
+}
+.close-btn {
+  opacity: 1;
+  background: theme-color('secondary') !important;
+  font-size: 1em;
+  padding: 5px  !important;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  margin-right: 0 !important;
+  .close-modal-icon {
+    text-shadow: none;
+    color: theme-color('primary') !important;
+  }
+}

@@ -1,0 +1,106 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="newSpecializationForm">
+  <div class="form-row">
+    <div class="form-group col-12">
+      <input
+        class="form-control"
+        formControlName="specializationNameFormControl"
+        id="degree"
+        name="degree"
+        required
+        type="text"
+      />
+      <label for="degree">Degree Title</label>
+      <div
+        *ngIf="
+          newSpecializationForm.get('specializationNameFormControl')?.dirty &&
+          !newSpecializationForm.get('specializationNameFormControl')?.valid
+        "
+        class="invalid-tooltip"
+      >
+        Please enter a degree name
+      </div>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-12">
+      <div class="form-check">
+        <input
+          [value]="prefill?.specialization"
+          class="form-check-input"
+          formControlName="validationFormControl"
+          id="active"
+          type="checkbox"
+        />
+        <label class="form-check-label" for="active"> Active </label>
+      </div>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-6">
+      <app-smart-table
+        (createdRow)="addCourseReqs($event)"
+        (deletedRow)="deleteCourseReqs($event)"
+        (editedRow)="patchEditedCourseReqs($event)"
+        [search]="true"
+        [tableActions]="actions"
+        [tableColumns]="columns"
+        [tableData]="courseTypes$ | async"
+        [tableHeaderHide]="false"
+        [search]="true"
+      ></app-smart-table>
+    </div>
+  </div>
+  <div *ngFor="let courseType of courseTypes$ | async" class="mb-4">
+    <ng-container
+      *ngIf="
+        courseType.credits !== undefined &&
+        courseType.credits !== null &&
+        courseType.credits !== 0 &&
+        courseType.credits !== ''
+      "
+    >
+      <app-smart-table
+        (deletedRow)="deleteCourse($event, courseType.course_type!)"
+        [tableActions]="actionsCourses"
+        [tableColumns]="columnsCourses"
+        [tableData]="courseType.courses!"
+        [tableHeaderHide]="false"
+        [tableTitle]="courseType.course_type! + '(' + courseType.credits + ')'"
+      ></app-smart-table>
+      <div>
+        <app-modal
+          (modalClosed)="closeModal($event, courseType.course_type!)"
+          [icon]="'class'"
+          [modalId]="courseType.course_type!.replace(' ', '') + prefill?.id"
+          [modalTitle]="'Add or Remove Courses'"
+          [openModal]="courseType.open_modal!"
+        >
+          <app-course-table
+            (selectedCourses)="
+              addSelectedCourses($event, courseType.course_type!)
+            "
+            [courseAdd]="false"
+            [editable]="false"
+            [enabledCourses]="courseType.courses!"
+            [preSelectedCourses]="courseType.courses!"
+            [selectable]="true"
+          ></app-course-table>
+        </app-modal>
+      </div>
+      <button
+        (click)="openCoursesModal(courseType)"
+        class="btn btn-secondary mt-4"
+        type="button"
+      >
+        Add/Remove Courses
+      </button>
+    </ng-container>
+  </div>
+  <button
+    [disabled]="!newSpecializationForm.valid"
+    class="btn btn-secondary"
+    type="submit"
+  >
+    {{ create ? "Create Degree" : "Edit Degree" }}
+  </button>
+</form>

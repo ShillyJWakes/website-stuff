@@ -1,0 +1,34 @@
+<div class="p-4">
+  <button
+    (click)="openModal = true"
+    *ngIf="!viewSpecs"
+    class="btn btn-secondary"
+  >
+    Create Degree
+  </button>
+</div>
+<app-smart-table
+  (customAction)="openSpecializationInfo($event)"
+  (editedRow)="patchEditedSpec($event)"
+  [search]="true"
+  [tableActions]="actions"
+  [tableColumns]="columns"
+  [tableData]="specializations"
+  [tableHeaderHide]="false"
+></app-smart-table>
+
+<app-modal
+  (modalClosed)="closeModal($event)"
+  [icon]="'school'"
+  [modalId]="
+    openedSpecialization === undefined
+      ? 'add-specialization'
+      : 'update-specialization-' + openedSpecialization.id
+  "
+  [modalTitle]="'Add Degree'"
+  [openModal]="openModal"
+>
+  <app-specialization-form
+    [prefill]="openedSpecialization"
+  ></app-specialization-form>
+</app-modal>

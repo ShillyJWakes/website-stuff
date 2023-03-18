@@ -1,0 +1,12 @@
+<div class="row">
+  <div class="col-5">
+    <app-card [cardTitle]="'POWs'" [titleIcon]="'view_agenda'">
+      <app-pows-for-approval></app-pows-for-approval>
+    </app-card>
+  </div>
+  <div class="col-7">
+    <app-card [cardTitle]="'Student POW'" [titleIcon]="'event_note'">
+      <app-pow-viewer [role]="'Admin'"></app-pow-viewer>
+    </app-card>
+  </div>
+</div>

@@ -1,0 +1,44 @@
+<app-smart-table
+  (deletedRow)="removeCourse($event)"
+  *ngIf="!hideTable"
+  [search]="true"
+  [tableActions]="actions"
+  [tableColumns]="columns"
+  [tableData]="courses"
+  [tableHeaderHide]="false"
+></app-smart-table>
+<div *ngIf="hideTable" class="p-4">
+  <ngb-alert [dismissible]="false" [type]="'info'" class="no-data-message"
+    >Please select a course from the left
+  </ngb-alert>
+</div>
+<br />
+<app-modal
+  (modalClosed)="closeModal($event)"
+  [icon]="'class'"
+  [modalId]="'term-courses'"
+  [modalTitle]="'Add Courses'"
+  [openModal]="openModal"
+>
+  <app-course-table
+    (selectedCourses)="addSelectedCourses($event)"
+    *ngIf="!hideAddCourses"
+    [courseAdd]="false"
+    [editable]="false"
+    [enabledCourses]="preSelected"
+    [preSelectedCourses]="preSelected"
+    [selectable]="true"
+  ></app-course-table>
+</app-modal>
+<div *ngIf="!hideAddCourses" class="p-4">
+  <button
+    (click)="openModal = true"
+    class="btn btn-secondary mr-3"
+    type="button"
+  >
+    Add/Remove Courses
+  </button>
+  <button (click)="submitTerm()" class="btn btn-secondary" type="button">
+    Save Term
+  </button>
+</div>

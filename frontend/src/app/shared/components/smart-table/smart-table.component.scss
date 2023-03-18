@@ -1,0 +1,27 @@
+@import "../../../../assets/theme";
+@import "~bootstrap/scss/bootstrap";
+
+::ng-deep .ng2-smart-titles {
+  background: none;
+
+  .ng2-smart-th {
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+
+  .ng2-smart-sort-link {
+    color: black;
+    font-family: "StoneSans", sans-serif;
+  }
+}
+
+::ng-deep .ng2-smart-pagination-nav {
+  padding: 20px;
+}
+
+.table-title {
+  font-size: 1.7em;
+  text-align: left;
+  padding: 10px;
+  color: theme-color("primary");
+}

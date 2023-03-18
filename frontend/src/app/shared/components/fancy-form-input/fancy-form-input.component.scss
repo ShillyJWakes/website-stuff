@@ -1,0 +1,36 @@
+.input-anchor {
+  position: relative;
+}
+
+.input-view {
+
+  position: absolute;
+  top: 0;
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 5px;
+  z-index: 99999;
+  width: 35vw;
+}
+
+.form-toast {
+  position: absolute;
+  bottom: -40px;
+  color: #fff;
+  font-family: "StoneSans", sans-serif;
+  font-weight: bold;
+  z-index: 999999;
+}
+
+.mini-form-overlay {
+  background: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  z-index: 99999;
+}

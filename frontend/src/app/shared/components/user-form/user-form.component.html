@@ -1,0 +1,325 @@
+<form [formGroup]="newUserForm" (ngSubmit)="onSubmit()">
+  <div class="p-2 pt-3">
+    <div class="form-group col-12 p-0 m-0">
+      <div style="display: flex" *ngIf="create === true">
+        <div class="col-5">
+          <div
+            *ngIf="
+              (newUserForm.get('firstNameFormControl')?.dirty &&
+                !newUserForm.get('firstNameFormControl')?.valid) ||
+              firstNameEmpty === true
+            "
+            class="invalid-tooltip"
+          >
+            Please enter a valid first name.
+          </div>
+          <input
+            class="form-control"
+            type="text"
+            id="first-name"
+            formControlName="firstNameFormControl"
+            name="first-name"
+            required
+            [value]="prefill?.firstName"
+            (change)="firstNameEmpty = false"
+          />
+          <label for="first-name">First Name</label>
+        </div>
+        <div class="col-2">
+          <div
+            *ngIf="
+              newUserForm.get('middleInFormControl')?.dirty &&
+              !newUserForm.get('middleInFormControl')?.valid
+            "
+            class="invalid-tooltip"
+          >
+            Must be a letter.
+          </div>
+          <input
+            class="form-control"
+            type="text"
+            id="middle-initial"
+            formControlName="middleInFormControl"
+            name="middle-initial"
+            [value]="prefill?.middleIn"
+            maxlength="1"
+          />
+          <label for="middle-initial">MI</label>
+        </div>
+
+        <div class="col-5">
+          <div
+            *ngIf="
+              (newUserForm.get('lastNameFormControl')?.dirty &&
+                !newUserForm.get('lastNameFormControl')?.valid) ||
+              lastNameEmpty === true
+            "
+            class="invalid-tooltip"
+          >
+            Please enter a valid last name.
+          </div>
+          <input
+            class="form-control"
+            type="text"
+            id="last-name"
+            formControlName="lastNameFormControl"
+            name="last-name"
+            required
+            [value]="prefill?.lastName"
+            (change)="lastNameEmpty = false"
+          />
+          <label for="last-name">Last Name</label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-12 p-0 m-0">
+      <div class="d-flex">
+        <div class="col-4">
+          <div
+            *ngIf="
+              (newUserForm.get('accessIDFormControl')?.dirty &&
+                !newUserForm.get('accessIDFormControl')?.valid) ||
+              accessIdEmpty === true
+            "
+            class="invalid-tooltip"
+          >
+            Please enter a valid Access Id.
+          </div>
+          <input
+            class="form-control"
+            type="text"
+            id="access-id"
+            formControlName="accessIDFormControl"
+            name="access-id"
+            [value]="prefill?.accessID"
+            required
+            maxlength="6"
+            (change)="accessIdEmpty = false"
+          />
+          <label for="first-name">Access Id</label>
+        </div>
+
+        <div class="col-8">
+          <div
+            *ngIf="
+              (newUserForm.get('emailFormControl')?.dirty &&
+                !newUserForm.get('emailFormControl')?.valid) ||
+              emailEmpty === true
+            "
+            class="invalid-tooltip"
+          >
+            Please enter a valid email address.
+          </div>
+          <input
+            class="form-control"
+            type="email"
+            id="email"
+            formControlName="emailFormControl"
+            name="email"
+            required
+            [value]="prefill?.email"
+            (change)="emailEmpty = false"
+          />
+          <label for="email">Email</label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-12 p-0 m-0 d-flex" *ngIf="create === true">
+      <div class="col-8">
+        <input
+          class="form-control"
+          type="text"
+          id="address"
+          formControlName="addressFormControl"
+          name="address"
+          [value]="prefill?.address"
+        />
+        <label for="address">Address</label>
+      </div>
+      <div class="col-4">
+        <input
+          class="form-control"
+          type="text"
+          id="address-2"
+          formControlName="address2FormControl"
+          name="address-2"
+          [value]="prefill?.address2"
+        />
+        <label for="address-2">Apt/Unit</label>
+      </div>
+    </div>
+    <div class="form-group col-12 p-0 m-0" *ngIf="create === true">
+      <div style="display: flex">
+        <div class="col-6">
+          <input
+            class="form-control"
+            type="text"
+            id="city"
+            formControlName="cityFormControl"
+            name="city"
+            [value]="prefill?.city"
+          />
+          <label for="city">City</label>
+          <div
+            *ngIf="
+              newUserForm.get('cityFormControl')?.dirty &&
+              !newUserForm.get('cityFormControl')?.valid
+            "
+            class="invalid-tooltip"
+          >
+            Please enter a valid city name.
+          </div>
+        </div>
+
+        <div class="col-6">
+          <input
+            class="form-control"
+            type="text"
+            id="zip-code"
+            formControlName="zipCodeFormControl"
+            name="zip-code"
+            maxlength="5"
+            [value]="prefill?.zipCode"
+          />
+          <label for="zip-code">Zip Code</label>
+          <div
+            *ngIf="
+              newUserForm.get('zipCodeFormControl')?.dirty &&
+              !newUserForm.get('zipCodeFormControl')?.valid
+            "
+            class="invalid-tooltip"
+          >
+            Please enter a valid zip code.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-12 p-0 m-0 d-flex" *ngIf="create === true">
+      <div class="col-4">
+        <select
+          [value]="'MI'"
+          class="form-control"
+          formControlName="stateFormControl"
+          id="state"
+        >
+          <option *ngFor="let state of states" [value]="state.abbreviation">
+            {{ state.name }}
+          </option>
+        </select>
+        <label for="state">State</label>
+      </div>
+
+      <div class="col-8">
+        <input
+          class="form-control"
+          type="text"
+          id="country"
+          formControlName="countryFormControl"
+          name="country"
+          [value]="prefill?.country"
+        />
+        <label for="country">Country</label>
+        <div
+          *ngIf="
+            newUserForm.get('countryFormControl')?.dirty &&
+            !newUserForm.get('countryFormControl')?.valid
+          "
+          class="invalid-tooltip"
+        >
+          Please enter a valid country name.
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-12 p-0 m-0 d-flex" *ngIf="create === true">
+      <div class="col-6" *ngIf="create === true">
+        <input
+          class="form-control"
+          type="text"
+          id="phone-number"
+          formControlName="phoneNumberFormControl"
+          name="phone-number"
+          maxlength="10"
+          [value]="prefill?.telephone"
+        />
+        <label for="phone-number">Telephone</label>
+        <div
+          *ngIf="
+            newUserForm.get('phoneNumberFormControl')?.dirty &&
+            !newUserForm.get('phoneNumberFormControl')?.valid
+          "
+          class="invalid-tooltip"
+        >
+          Please enter a valid phone number.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group col-12 pl-1 pt-3 d-flex" *ngIf="create === true">
+      <div class="col-12">
+        <p class="font-weight-bold">Please select the role for this user:</p>
+
+        <div *ngIf="rolesEmpty === true" class="alert alert-danger">
+          New User must be given at least one role.
+        </div>
+
+        <div>
+          <div class="col-1">
+            <input
+              #isStudentCheckbox
+              id="isStudentCheckbox"
+              name="isStudentCheckbox"
+              type="checkbox"
+              formControlName="isStudentFormControl"
+              class="form-check-input"
+              [checked]="isStudent"
+              (change)="setStudentRole(isStudentCheckbox.checked)"
+            />
+            <label class="form-check-label" for="isStudentCheckbox"
+              >Student</label
+            >
+          </div>
+
+          <div class="col-1">
+            <input
+              #isAdviserCheckbox
+              id="isAdviserCheckbox"
+              name="isAdviserCheckbox"
+              type="checkbox"
+              formControlName="isAdviserFormControl"
+              class="form-check-input"
+              [checked]="isAdviser"
+              (change)="setAdviserRole(isAdviserCheckbox.checked)"
+            />
+            <label class="form-check-label" for="isAdviserCheckbox"
+              >Adviser</label
+            >
+          </div>
+
+          <div class="col-1">
+            <input
+              #isAdminCheckbox
+              id="isAdminCheckbox"
+              name="isAdminCheckbox"
+              type="checkbox"
+              formControlName="isAdminFormControl"
+              class="form-check-input"
+              [checked]="isAdmin"
+              (change)="setAdminRole(isAdminCheckbox.checked)"
+            />
+            <label class="form-check-label" for="isAdminCheckbox">Admin</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex p-3">
+      <button type="submit" class="btn btn-secondary mt-3">
+        {{ prefill ? "Update User Information" : "Create User" }}
+      </button>
+      <div *ngIf="sending === true" class="ml-2 mt-3">
+        <div class="spinner-border text-primary" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

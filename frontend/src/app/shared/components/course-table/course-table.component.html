@@ -1,0 +1,75 @@
+<div [ngClass]="!editable ? 'view-table' : ''">
+  <div *ngIf="courseAdd" class="row m-4">
+    <div class="col-12 mb-3">
+      <button (click)="createCourse()" class="btn btn-secondary">
+        {{ role === "student" ? "Add Custom Course" : "Create Course" }}
+      </button>
+    </div>
+    <div class="col-12">
+      <div class="form-check form-check-inline">
+        <input
+          (change)="seeOtherDepartments($event)"
+          class="form-check-input"
+          id="other_departments"
+          type="checkbox"
+          value="other-departments"
+        />
+        <label class="form-check-label" for="other_departments"
+          >See Other Departments</label
+        >
+      </div>
+      <div *ngIf="!selectable" class="form-check form-check-inline">
+        <input
+          (change)="seeInactiveCourses($event)"
+          class="form-check-input"
+          id="active_courses"
+          type="checkbox"
+          value="active-courses"
+        />
+        <label class="form-check-label" for="active_courses"
+          >See Inactive Courses</label
+        >
+      </div>
+    </div>
+  </div>
+  <app-smart-table
+    (customAction)="openCourseInfo($event)"
+    (deletedRow)="deletedCourse($event)"
+    (editedRow)="patchEditedCourse($event)"
+    (selectedRows)="sendSelectedRows($event)"
+    [search]="true"
+    [tableActions]="actions"
+    [tableColumns]="columns"
+    [tableData]="courses"
+    [tableHeaderHide]="false"
+  ></app-smart-table>
+  <app-modal
+    (modalClosed)="closeModal($event)"
+    [icon]="'class'"
+    [modalId]="
+      openedCourse === undefined
+        ? 'add-course'
+        : 'update-course-' + openedCourse.id
+    "
+    [modalTitle]="'Course'"
+    [openModal]="openModal"
+  >
+    <app-course-form
+      (formSubmitted)="formSubmitted($event)"
+      *ngIf="
+        (role === 'student' && openedCourse === undefined) ||
+        (role !== 'student' && !selectable)
+      "
+      [create]="openedCourse === undefined"
+      [prefill]="openedCourse"
+      [role]="role"
+    ></app-course-form>
+    <app-course-view
+      *ngIf="
+        (role === 'student' && openedCourse !== undefined) ||
+        (role !== 'student' && selectable)
+      "
+      [course]="openedCourse"
+    ></app-course-view>
+  </app-modal>
+</div>

@@ -1,0 +1,16 @@
+<nav class="navbar main-nav bg-primary elevation-2" ngbNav>
+  <span class="navbar-brand mb-0 h1">
+    <img class="desktop-logo" src="assets/img/sis_logo.png" />
+    <img class="mobile-logo" src="assets/img/shield_ogo.png" />
+  </span>
+  <span class="navbar-text">
+    <h1 class="title">Plan of Work Portal</h1>
+    <button
+      (click)="logOut()"
+      *ngIf="showLogout"
+      class="btn btn-secondary logout-btn"
+    >
+      <span class="material-icons"> exit_to_app </span>Log Out
+    </button>
+  </span>
+</nav>

@@ -1,0 +1,370 @@
+<div #formOverlay *ngIf="inputView" class="mini-form-overlay"></div>
+<form
+  #formFields
+  (ngSubmit)="submitForm()"
+  [formGroup]="fancyForm"
+  class="mini-form"
+>
+  <div class="input-anchor">
+    <div *ngFor="let input of inputs; let i = index">
+      <div *ngIf="input.type === 'name' && i === 0">
+        <span *ngFor="let nameInput of inputs" class="font-weight-bold"
+          >{{ nameInput.value }}
+        </span>
+        <div>
+          Name
+          <button (click)="openInput()" class="btn btn-link" type="button">
+            <span class="material-icons"> edit </span>
+          </button>
+        </div>
+      </div>
+      <div *ngIf="input.type === 'address' && i === 0">
+        <span class="font-weight-bold">
+          {{ inputs && inputs[0].value }} <br />
+          {{ inputs && inputs[1].value }}
+          <br *ngIf="inputs && inputs[1].value" />
+          {{ inputs && inputs[2].value }}, {{ inputs && inputs[3].value }}
+          {{ inputs && inputs[4].value }} <br />
+          {{ inputs && inputs[5].value }}
+        </span>
+        <div>
+          Home Address
+          <button (click)="openInput()" class="btn btn-link" type="button">
+            <span class="material-icons"> edit </span>
+          </button>
+        </div>
+      </div>
+      <div *ngIf="input.type !== 'address' && input.type !== 'name' && i === 0">
+        <span class="font-weight-bold"> {{ input.value }} <br /> </span>
+        <div>
+          {{ input.label }}
+          <button
+            (click)="openInput()"
+            *ngIf="editable"
+            class="btn btn-link"
+            type="button"
+          >
+            <span class="material-icons"> edit </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ngb-toast
+    (hidden)="showToast = false"
+    *ngIf="showToast && message?.success"
+    [autohide]="true"
+    [delay]="3000"
+    class="bg-success elevation-1 form-toast"
+  >
+    {{ message?.message }}
+  </ngb-toast>
+  <div *ngIf="inputView" class="input-view elevation-2">
+    <div *ngFor="let input of inputs; let i = index" class="form-group">
+      <div *ngIf="input.type === 'name' && i === 0">
+        <div class="row">
+          <div class="col-5">
+            <input
+              [value]="inputs && inputs[0].value"
+              class="form-control"
+              formControlName="{{ inputs && inputs[0].classProp }}"
+              id="first_name"
+              type="text"
+            />
+            <label for="first_name">First Name</label>
+            <ng-container
+              *ngFor="let validation of inputs && inputs[0].validation"
+            >
+              <div
+                *ngIf="
+                  inputs &&
+                  fancyForm
+                    .get(inputs[0].classProp)
+                    ?.hasError(validation.validationType)
+                "
+                class="invalid-tooltip"
+              >
+                {{ validation.message }}
+              </div>
+            </ng-container>
+          </div>
+          <div class="col-2 pl-0 pr-0">
+            <input
+              [value]="inputs && inputs[1].value"
+              class="form-control"
+              formControlName="{{ inputs && inputs[1].classProp }}"
+              id="middle_in"
+              maxlength="1"
+              type="text"
+            />
+            <label for="middle_in">Mid. In.</label>
+            <ng-container
+              *ngFor="let validation of inputs && inputs[1].validation"
+            >
+              <div
+                *ngIf="
+                  inputs &&
+                  fancyForm
+                    .get(inputs[1].classProp)
+                    ?.hasError(validation.validationType)
+                "
+                class="invalid-tooltip"
+              >
+                {{ validation.message }}
+              </div>
+            </ng-container>
+          </div>
+          <div class="col-5">
+            <input
+              [value]="inputs && inputs[2].value"
+              class="form-control"
+              formControlName="{{ inputs && inputs[2].classProp }}"
+              id="last_name"
+              type="text"
+            />
+            <label for="last_name">Last Name</label>
+            <ng-container
+              *ngFor="let validation of inputs && inputs[2].validation"
+            >
+              <div
+                *ngIf="
+                  inputs &&
+                  fancyForm
+                    .get(inputs[2].classProp)
+                    ?.hasError(validation.validationType)
+                "
+                class="invalid-tooltip"
+              >
+                {{ validation.message }}
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="input.type === 'address' && i === 0">
+        <div class="row">
+          <div class="col-9">
+            <input
+              [value]="inputs && inputs[0].value"
+              class="form-control"
+              formControlName="{{ inputs && inputs[0].classProp }}"
+              id="address"
+              type="text"
+            />
+            <label for="address">Address</label>
+            <ng-container
+              *ngFor="let validation of inputs && inputs[0].validation"
+            >
+              <div
+                *ngIf="
+                  inputs &&
+                  fancyForm
+                    .get(inputs[0].classProp)
+                    ?.hasError(validation.validationType)
+                "
+                class="invalid-tooltip"
+              >
+                {{ validation.message }}
+              </div>
+            </ng-container>
+          </div>
+          <div class="col-3 pl-0">
+            <input
+              [value]="inputs && inputs[1].value"
+              class="form-control"
+              formControlName="{{ inputs && inputs[1].classProp }}"
+              id="address2"
+              type="text"
+            />
+            <label for="address">Apt/Unit</label>
+            <ng-container
+              *ngFor="let validation of inputs && inputs[1].validation"
+            >
+              <div
+                *ngIf="
+                  inputs &&
+                  fancyForm
+                    .get(inputs[1].classProp)
+                    ?.hasError(validation.validationType)
+                "
+                class="invalid-tooltip"
+              >
+                {{ validation.message }}
+              </div>
+            </ng-container>
+          </div>
+          <div class="col-8">
+            <input
+              [value]="inputs && inputs[2].value"
+              class="form-control"
+              formControlName="{{ inputs && inputs[2].classProp }}"
+              id="city"
+              type="text"
+            />
+            <label for="city">City</label>
+            <ng-container
+              *ngFor="let validation of inputs && inputs[2].validation"
+            >
+              <div
+                *ngIf="
+                  inputs &&
+                  fancyForm
+                    .get(inputs[2].classProp)
+                    ?.hasError(validation.validationType)
+                "
+                class="invalid-tooltip"
+              >
+                {{ validation.message }}
+              </div>
+            </ng-container>
+          </div>
+          <div class="col-4 pl-0">
+            <select
+              class="form-control"
+              formControlName="{{ inputs && inputs[3].classProp }}"
+              id="state"
+              required
+            >
+              <option *ngFor="let state of states" [value]="state.abbreviation">
+                {{ state.name }}
+              </option>
+            </select>
+            <label for="address">State</label>
+            <ng-container
+              *ngFor="let validation of inputs && inputs[3].validation"
+            >
+              <div
+                *ngIf="
+                  inputs &&
+                  fancyForm
+                    .get(inputs[3].classProp)
+                    ?.hasError(validation.validationType)
+                "
+                class="invalid-tooltip"
+              >
+                {{ validation.message }}
+              </div>
+            </ng-container>
+          </div>
+          <div class="col-4">
+            <input
+              [value]="inputs && inputs[4].value"
+              class="form-control"
+              formControlName="{{ inputs && inputs[4].classProp }}"
+              id="zip_code"
+              maxlength="6"
+              type="text"
+            />
+            <label for="zip_code">Postal Code</label>
+            <ng-container
+              *ngFor="let validation of inputs && inputs[4].validation"
+            >
+              <div
+                *ngIf="
+                  inputs &&
+                  fancyForm
+                    .get(inputs[4].classProp)
+                    ?.hasError(validation.validationType)
+                "
+                class="invalid-tooltip"
+              >
+                {{ validation.message }}
+              </div>
+            </ng-container>
+          </div>
+          <div class="col-8 pl-0">
+            <input
+              [value]="inputs && inputs[5].value"
+              class="form-control"
+              formControlName="{{ inputs && inputs[5].classProp }}"
+              id="country"
+              type="text"
+            />
+            <label for="country">Country</label>
+            <ng-container
+              *ngFor="let validation of inputs && inputs[5].validation"
+            >
+              <div
+                *ngIf="
+                  inputs &&
+                  fancyForm
+                    .get(inputs[5].classProp)
+                    ?.hasError(validation.validationType)
+                "
+                class="invalid-tooltip"
+              >
+                {{ validation.message }}
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="input.type === 'select' && input.classProp !== 'state'">
+        <select
+          class="form-control"
+          formControlName="{{ input.classProp }}"
+          id="{{ 'select' + '_' + input.label + '_' + input.type }}"
+        >
+          <option
+            *ngFor="let option of input.selectOptions"
+            [value]="option.value"
+          >
+            {{ option.title }}
+          </option>
+        </select>
+        <label for="{{ 'select' + '_' + input.label + '_' + input.type }}">{{
+          input.label
+        }}</label>
+        <ng-container *ngFor="let validation of input.validation">
+          <div
+            *ngIf="
+              fancyForm
+                .get(input.classProp)
+                ?.hasError(validation.validationType)
+            "
+            class="invalid-tooltip"
+          >
+            {{ validation.message }}
+          </div>
+        </ng-container>
+      </div>
+      <div *ngIf="input.type === 'text'">
+        <input
+          [maxLength]="input.characterMax || 100"
+          [type]="'text'"
+          [value]="input.value"
+          class="form-control"
+          formControlName="{{ input.classProp }}"
+          id="{{ input.label + '_' + input.type }}"
+        />
+        <label for="{{ input.label + '_' + input.type }}">{{
+          input.label
+        }}</label>
+        <ng-container *ngFor="let validation of input.validation">
+          <div
+            *ngIf="
+              fancyForm
+                .get(input.classProp)
+                ?.hasError(validation.validationType)
+            "
+            class="invalid-tooltip"
+          >
+            {{ validation.message }}
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <button
+      [disabled]="!fancyForm.valid"
+      class="btn btn-secondary"
+      type="submit"
+    >
+      Save
+    </button>
+    <ngb-alert
+      *ngIf="message && message.message && !message?.success"
+      [type]="'danger'"
+      >{{ message?.message }}</ngb-alert
+    >
+  </div>
+</form>

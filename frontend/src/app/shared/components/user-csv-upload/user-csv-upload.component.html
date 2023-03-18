@@ -1,0 +1,38 @@
+<div class="p-3">
+  <!-- component that is used for uploading files, can only accept .csv files -->
+  <ngx-dropzone (change)="onSelect($event)" [multiple]="false" accept=".csv">
+    <ngx-dropzone-label>Click or drag CSV files here.</ngx-dropzone-label>
+    <!-- if there are many files, list them here -->
+    <ngx-dropzone-preview
+      *ngFor="let f of files"
+      [removable]="true"
+      (removed)="onRemove(f)"
+    >
+      <!-- Listing each file name that has been uploaded -->
+      <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+    </ngx-dropzone-preview>
+  </ngx-dropzone>
+
+  <!-- upload button with spinning wheel for progress -->
+  <div class="d-flex">
+    <button
+      (click)="sendFile()"
+      class="btn btn-secondary submit-message mt-2 mb-2"
+      [disabled]="disableButton"
+    >
+      Upload
+    </button>
+    <div *ngIf="sending === true" class="ml-2 mt-3">
+      <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div *ngIf="error === true" class="alert alert-danger">
+      Please make sure that the CSV file is in the correct format and there are
+      no duplicate Access Ids or Emails.
+    </div>
+  </div>
+</div>

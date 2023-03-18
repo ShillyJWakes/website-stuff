@@ -1,0 +1,117 @@
+<div
+  *ngIf="!activeSpecialization || activeSpecialization.id === undefined"
+  class="p-4"
+>
+  <ngb-alert [dismissible]="false" [type]="'info'" class="no-data-message"
+    >Please choose a degree to start making a POW.
+  </ngb-alert>
+</div>
+<div *ngIf="activeSpecialization && activeSpecialization.id !== undefined">
+  <div class="form-row pt-4 pr-4 pl-4 pb-0 specialization-form">
+    <div class="form-group col-6">
+      <label for="first_class">Term of First Class</label>
+      <select
+        (change)="setFirstClass($event)"
+        class="form-control"
+        id="first_class"
+      >
+        <option>Please choose...</option>
+        <option *ngFor="let term of termList" [value]="term.value">
+          {{ term.title }}
+        </option>
+      </select>
+    </div>
+    <div class="form-group col-6">
+      <label for="orientation">Term of Orientation</label>
+      <select
+        (change)="setOrientationTerm($event)"
+        class="form-control"
+        id="orientation"
+      >
+        <option>Please choose...</option>
+        <option *ngFor="let term of termList" [value]="term.value">
+          {{ term.title }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="row pt-0 pr-4 pl-4 pb-4">
+    <div class="col-12">
+      <div class="mt-1 d-flex justify-content-between term-progress">
+        <span
+          >Credits Planned:
+          <span class="font-weight-bold">{{ creditsPlanned }}</span></span
+        >
+        <span
+          >Total Credits:
+          <span class="font-weight-bold">{{ creditsNeeded }}</span></span
+        >
+      </div>
+      <ngb-progressbar
+        [max]="creditsNeeded"
+        [showValue]="true"
+        [value]="creditsPlanned"
+        type="secondary"
+      ></ngb-progressbar>
+    </div>
+  </div>
+  <div *ngFor="let courseType of specializationCourses">
+    <app-smart-table
+      (editedRow)="editPowCourse($event, courseType.course_type)"
+      [tableActions]="actions"
+      [tableColumns]="columns"
+      [tableData]="courseType.courses"
+      [tableHeaderHide]="false"
+      [tableTitle]="
+        courseType?.course_type + ' (' + courseType?.credits + ' Required)'
+      "
+    ></app-smart-table>
+    <app-modal
+      (modalClosed)="closeModal($event, courseType.course_type)"
+      [icon]="'class'"
+      [modalId]="courseType.course_type"
+      [modalTitle]="'Add Courses'"
+      [openModal]="courseType?.open_modal!"
+    >
+      <app-course-table
+        (selectedCourses)="addSelectedCourses($event, courseType.course_type)"
+        *ngIf="courseType.allow_addition"
+        [courseAdd]="true"
+        [editable]="false"
+        [enabledCourses]="[]"
+        [preSelectedCourses]="preSelectedCourses"
+        [role]="'student'"
+        [selectable]="true"
+      ></app-course-table>
+    </app-modal>
+    <button
+      (click)="courseType.open_modal = true"
+      *ngIf="courseType.allow_addition"
+      class="btn btn-secondary m-4"
+      type="button"
+    >
+      Add/Remove Courses
+    </button>
+  </div>
+  <div class="mt-3 p-4">
+    <button
+      (click)="submitPow('save')"
+      [disabled]="loading"
+      class="btn btn-secondary mr-3"
+    >
+      Save
+    </button>
+    <button
+      (click)="submitPow('approval')"
+      [disabled]="!submittable || loading"
+      class="btn btn-secondary"
+    >
+      Submit for Approval
+    </button>
+    <div *ngIf="loading" class="ml-2 mt-1">
+      <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+  </div>
+</div>

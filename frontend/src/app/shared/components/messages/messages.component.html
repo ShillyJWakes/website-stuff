@@ -1,0 +1,52 @@
+<div class="p-4">
+  <div class="message-container bg-light p-3 rounded">
+    <div *ngFor="let m of messages; index as i; first as isFirst">
+      <div
+        *ngIf="this.currentUser !== this.messages[i]?.senderId"
+        class="d-flex flex-row"
+      >
+        <div class="w-75 border border-dark-gray rounded p-2 mb-2 shadow-sm">
+          <div class="font-weight-bold">
+            {{ this.messages[i]?.senderName }}
+          </div>
+
+          <div>{{ this.messages[i]?.message }}</div>
+        </div>
+      </div>
+
+      <div
+        *ngIf="this.currentUser === this.messages[i]?.senderId"
+        class="d-flex flex-row-reverse"
+      >
+        <div class="w-75 border border-primary rounded p-2 mb-2 shadow-sm">
+          <div class="font-weight-bold">
+            {{ this.messages[i]?.senderName }}
+          </div>
+          <div>{{ this.messages[i]?.message }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="this.messages">
+    <textarea
+      #newmessage
+      (keyup)="updateMyMessage(newmessage.value)"
+      [disabled]="!this.hasPow"
+      class="md-textarea form-control"
+      id="form7"
+      rows="3"
+      value="{{ messageToSend }}"
+    >
+    </textarea>
+    <div class="submit-container">
+      <button
+        (click)="sendMyMessage()"
+        [disabled]="!this.ableToSend"
+        class="btn btn-secondary submit-message mt-2"
+        placeholder="Enter Message"
+      >
+        Send
+      </button>
+    </div>
+  </div>
+</div>

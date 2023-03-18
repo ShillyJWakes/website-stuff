@@ -1,0 +1,30 @@
+<ngb-toast
+  (hidden)="show = false"
+  *ngIf="show && toastMessage?.type === 'success'"
+  [autohide]="true"
+  [delay]="toastMessage?.delay || 3000"
+  [header]="toastMessage?.title || ''"
+  class="bg-success global-toast"
+>
+  {{ toastMessage?.message }}
+</ngb-toast>
+<ngb-toast
+  (hidden)="show = false"
+  *ngIf="show && toastMessage?.type === 'danger'"
+  [autohide]="true"
+  [delay]="toastMessage?.delay || 3000"
+  [header]="toastMessage?.title || ''"
+  class="bg-danger global-toast"
+>
+  {{ toastMessage?.message }}
+</ngb-toast>
+<ngb-toast
+  (hidden)="show = false"
+  *ngIf="show && toastMessage?.type === 'standard'"
+  [autohide]="true"
+  [delay]="toastMessage?.delay || 3000"
+  [header]="toastMessage?.title || ''"
+  class="global-toast"
+>
+  {{ toastMessage?.message }}
+</ngb-toast>

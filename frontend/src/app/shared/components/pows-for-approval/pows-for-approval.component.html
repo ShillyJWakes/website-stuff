@@ -1,0 +1,24 @@
+<div class="form-check form-check-inline p-4">
+  <input
+    (change)="seeAllPows($event)"
+    class="form-check-input"
+    id="other_departments"
+    type="checkbox"
+    value="other-departments"
+  />
+  <label class="form-check-label" for="other_departments">See All POWs</label>
+</div>
+<app-smart-table
+  (customAction)="openPow($event)"
+  [noDataMessage]="''"
+  [search]="true"
+  [tableActions]="actions"
+  [tableColumns]="columns"
+  [tableData]="pows"
+  [tableHeaderHide]="true"
+></app-smart-table>
+<div *ngIf="!viewPows" class="pl-4 pb-4 pr-4">
+  <ngb-alert [dismissible]="false" [type]="'info'" class="no-data-message"
+    >No POWs currently require review
+  </ngb-alert>
+</div>

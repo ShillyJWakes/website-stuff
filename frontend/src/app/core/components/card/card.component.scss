@@ -1,0 +1,34 @@
+@import "../../../../assets/theme";
+@import "~bootstrap/scss/bootstrap";
+
+.wsu-card-header {
+  background-color: theme-color("primary");
+  font-family: "StoneSerif", serif;
+  font-weight: normal;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+
+  .card-icon {
+    color: theme-color("secondary");
+    margin-right: 5px;
+    font-size: 2em;
+    line-height: 1.6em;
+  }
+
+  .card-title {
+    font-size: 1.5em;
+    line-height: 2em;
+    margin-bottom: 0;
+  }
+}
+
+.wsu-card {
+  border: none;
+  margin: 0;
+
+  .card-body {
+    padding: 0;
+  }
+}

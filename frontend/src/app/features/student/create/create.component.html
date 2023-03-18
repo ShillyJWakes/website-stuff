@@ -1,0 +1,15 @@
+<div class="row">
+  <div class="col-5">
+    <app-card [cardTitle]="'Degrees'" [titleIcon]="'school'">
+      <app-specialization-table
+        [role]="'student'"
+        [viewSpecs]="true"
+      ></app-specialization-table>
+    </app-card>
+  </div>
+  <div class="col-7">
+    <app-card [cardTitle]="'Required Courses'" [titleIcon]="'class'">
+      <app-specialization-viewer></app-specialization-viewer>
+    </app-card>
+  </div>
+</div>

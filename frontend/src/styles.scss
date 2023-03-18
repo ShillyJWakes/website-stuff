@@ -1,0 +1,98 @@
+/* You can add global styles to this file, and also import other style files */
+@import "assets/theme";
+@import "~bootstrap/scss/bootstrap";
+@import "~material-design-icons/iconfont/material-icons.css";
+@import "assets/mixins/material-shadow";
+@import '~quill/dist/quill.core.css';
+@import '~quill/dist/quill.snow.css';
+
+body, html {
+  height: 100%;
+}
+
+body {
+  font-size: 12px;
+  background-color: theme-color("gray");
+}
+
+.btn {
+  text-transform: uppercase;
+  color: theme-color("primary");
+  font-weight: 500;
+}
+
+.table-icons {
+  color: theme-color("primary");
+}
+
+.table-icons-red {
+  color: theme-color("danger");
+}
+
+.ng2-smart-actions {
+  width: 0;
+}
+
+.ng2-smart-row input[type='checkbox'] {
+  width: 25px !important;
+}
+
+.ng2-smart-row input[type='checkbox']:checked {
+  background-color: theme-color("primary");
+}
+
+.table-checkbox {
+  height: 50px;
+  position: absolute;
+  top: -25px;
+}
+
+label {
+  font-weight: bold;
+}
+
+.view-table {
+  .ng2-smart-actions {
+    width: 50px;
+  }
+}
+
+.form-group {
+  position: relative;
+}
+
+.ng-invalid.ng-dirty {
+  border-color: #dc3545;
+}
+
+.ng-valid.ng-dirty {
+  border-color: #28a745;
+}
+
+.invalid-tooltip {
+  display: block;
+  top: 90%;
+  left: auto;
+}
+
+tbody {
+  tr.ng2-smart-row.selected {
+    background: inherit !important;
+  }
+
+  tr.ng2-smart-row {
+    border-top: 1px solid theme-color("dark-gray");
+  }
+
+  tr.ng2-smart-row:last-child {
+    border-bottom: 1px solid theme-color("dark-gray");
+  }
+}
+
+.no-data-message {
+  display: block;
+  font-size: 1.3em;
+  font-weight: bold;
+  font-family: "StoneSans", sans-serif;
+  text-align: center;
+}

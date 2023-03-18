@@ -1,0 +1,86 @@
+@font-face {
+  font-family: "StoneSans";
+  src: url("fonts/StoneSans.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "StoneSans";
+  src: url("fonts/StoneSans-Bold.woff2") format("woff2");
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "StoneSans";
+  src: url("fonts/StoneSans-BoldItalic.woff2") format("woff2");
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "StoneSans";
+  src: url("fonts/StoneSans-Italic.woff2") format("woff2");
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "StoneSans";
+  src: url("fonts/StoneSans-Semibold.woff2") format("woff2");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "StoneSans";
+  src: url("fonts/StoneSans-SemiboldItalic.woff2") format("woff2");
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "StoneSerif";
+  src: url("fonts/StoneSerif.woff2") format("woff2");
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "StoneSerif";
+  src: url("fonts/StoneSerif-Bold.woff2") format("woff2");
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "StoneSerif";
+  src: url("fonts/StoneSerif-BoldItalic.woff2") format("woff2");
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "StoneSerif";
+  src: url("fonts/StoneSerif-Italic.woff2") format("woff2");
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "StoneSerif";
+  src: url("fonts/StoneSerif-Semibold.woff2") format("woff2");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "StoneSerif";
+  src: url("fonts/StoneSerif-SemiboldItalic.woff2") format("woff2");
+  font-weight: 500;
+  font-style: italic;
+}
+
+$theme-colors: (
+  "primary": #0c5449,
+  "primary-2": #094138,
+  "secondary": #ffcc33,
+  "gray": #F8F8F8,
+  "dark-gray": #E5E5E5,
+  "dark": #777777,
+);
+
+$font-family-sans-serif: "StoneSans", sans-serif;
+$font-family-serif: "StoneSerif", serif;

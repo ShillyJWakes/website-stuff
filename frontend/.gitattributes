@@ -1,0 +1,14 @@
+# Auto detect text files and perform EOL normalization
+* text=auto
+
+# Custom
+*.ts      text eol=lf
+*.jade    text eol=lf
+*.md      text eol=lf
+*.js      text eol=lf
+*.cmd     text eol=lf
+*.sln     text eol=lf
+*.csproj  text eol=lf
+*.jsproj  text eol=lf
+*.njsproj text eol=lf
+*.html text eol=lf

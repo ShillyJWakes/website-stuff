@@ -1,0 +1,39 @@
+.invalid-tooltip {
+  display: block;
+  top: 75%;
+  left: auto;
+}
+
+label {
+  font-size: 1.2em;
+  margin-top: 2px;
+}
+
+.form-check {
+  label {
+    margin: 0;
+  }
+}
+
+h6 {
+  margin: 0;
+  padding: 0;
+}
+
+.btn-link {
+  padding: 0;
+  line-height: normal;
+
+  .material-icons {
+    line-height: 30px;
+  }
+}
+
+.requisite-list {
+  list-style: none;
+  font-size: 1.2em;
+}
+
+.course-editor {
+  min-height: 300px;
+}

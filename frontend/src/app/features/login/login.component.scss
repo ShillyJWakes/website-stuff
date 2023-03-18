@@ -1,0 +1,20 @@
+.hand-cursor {
+  cursor: pointer;
+}
+
+.login-content {
+  max-width: 360px;
+  margin: 0 auto;
+  padding-top: 15vh;
+}
+.action {
+  text-align: center;
+  .login-btn {
+    margin: 20px auto;
+  }
+}
+
+.btn-text-style {
+  text-transform: capitalize;
+  font-size: 12px;
+}

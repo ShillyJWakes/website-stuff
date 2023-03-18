@@ -1,0 +1,246 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="newCourseForm">
+  <div *ngIf="role === 'student'" class="row">
+    <div class="col-12">
+      <ngb-alert [dismissible]="false" [type]="'info'" class="no-data-message">
+        <span>NOTE:</span> Student created courses must first be approved by an
+        admin before they can be added to a POW.
+      </ngb-alert>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-12">
+      <input
+        [value]="prefill?.courseProfile"
+        class="form-control"
+        formControlName="courseNameFormControl"
+        id="course-name"
+        name="course-name"
+        required
+        size="150"
+        type="text"
+      />
+      <label for="course-name">Course Name</label>
+      <div
+        *ngIf="
+          newCourseForm.get('courseNameFormControl')?.dirty &&
+          !newCourseForm.get('courseNameFormControl')?.valid
+        "
+        class="invalid-tooltip"
+      >
+        Please enter a valid course name
+      </div>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-3">
+      <input
+        (input)="
+          newCourseForm.controls.departmentFormControl.setValue(
+            newCourseForm.controls.departmentFormControl.value.toUpperCase()
+          )
+        "
+        [maxLength]="3"
+        [value]="prefill?.department"
+        class="form-control"
+        formControlName="departmentFormControl"
+        id="department"
+        name="department"
+        required
+        type="text"
+      />
+      <label for="department">Dept.</label>
+      <div
+        *ngIf="
+          newCourseForm.get('departmentFormControl')?.dirty &&
+          !newCourseForm.get('departmentFormControl')?.valid
+        "
+        class="invalid-tooltip"
+      >
+        Please enter a valid department
+      </div>
+    </div>
+    <div class="form-group col-6">
+      <input
+        [maxLength]="4"
+        [value]="prefill?.courseNumber"
+        class="form-control"
+        formControlName="courseNumFormControl"
+        id="course-number"
+        name="course-number"
+        required
+        type="text"
+      />
+      <label for="course-number">Course Number</label>
+      <div
+        *ngIf="
+          newCourseForm.get('courseNumFormControl')?.dirty &&
+          !newCourseForm.get('courseNumFormControl')?.valid
+        "
+        class="invalid-tooltip"
+      >
+        Please enter a valid course Number
+      </div>
+    </div>
+    <div class="form-group col-3">
+      <input
+        [maxLength]="2"
+        [value]="prefill?.numberOfCredits"
+        class="form-control"
+        formControlName="creditsFormControl"
+        id="credits"
+        name="credits"
+        required
+        type="text"
+      />
+      <label for="course-number">Credits</label>
+      <div
+        *ngIf="
+          newCourseForm.get('creditsFormControl')?.dirty &&
+          !newCourseForm.get('creditsFormControl')?.valid
+        "
+        class="invalid-tooltip"
+      >
+        Please enter valid credits
+      </div>
+    </div>
+  </div>
+  <div *ngIf="role !== 'student'" class="form-row">
+    <div class="form-group col-6">
+      <app-modal
+        (modalClosed)="closeCoRequisiteModal($event)"
+        [icon]="'class'"
+        [modalId]="'co-requisites'"
+        [modalTitle]="'Add Co-Req Courses'"
+        [openModal]="openCoRequisiteModal"
+      >
+        <app-course-table
+          (selectedCourses)="addSelectedCoRequisite($event)"
+          *ngIf="openCoRequisiteModal"
+          [courseAdd]="false"
+          [editable]="false"
+          [enabledCourses]="coReqs"
+          [preSelectedCourses]="coReqs"
+          [selectable]="true"
+        ></app-course-table>
+      </app-modal>
+      <div class="d-flex align-items-center">
+        <div><h6>Co-Requisites</h6></div>
+        <div>
+          <button
+            (click)="openCoRequisiteModal = true"
+            class="btn btn-link ml-2"
+            type="button"
+          >
+            <span class="material-icons"> add </span>
+            <span class="material-icons"> remove </span>
+          </button>
+        </div>
+      </div>
+      <ul class="requisite-list">
+        <li *ngFor="let coReq of coReqs">
+          <span class="font-weight-bold"
+            >{{ coReq.department }}{{ coReq.courseNumber }}</span
+          >
+          {{ coReq.courseProfile }}
+        </li>
+      </ul>
+    </div>
+    <div class="form-group col-6">
+      <app-modal
+        (modalClosed)="closePreRequisiteModal($event)"
+        [icon]="'class'"
+        [modalId]="'pre-requisites'"
+        [modalTitle]="'Add Pre-Req Courses'"
+        [openModal]="openPreRequisiteModal"
+      >
+        <app-course-table
+          (selectedCourses)="addSelectedPreRequisite($event)"
+          *ngIf="openPreRequisiteModal"
+          [courseAdd]="false"
+          [editable]="false"
+          [enabledCourses]="preReqs"
+          [preSelectedCourses]="preReqs"
+          [selectable]="true"
+        ></app-course-table>
+      </app-modal>
+      <div class="d-flex align-items-center">
+        <div><h6>Pre-Requisites</h6></div>
+        <div>
+          <button
+            (click)="openPreRequisiteModal = true"
+            class="btn btn-link ml-2"
+            type="button"
+          >
+            <span class="material-icons"> add </span>
+            <span class="material-icons"> remove </span>
+          </button>
+        </div>
+      </div>
+      <ul class="requisite-list">
+        <li *ngFor="let preReq of preReqs">
+          <span class="font-weight-bold"
+            >{{ preReq.department }}{{ preReq.courseNumber }}</span
+          >
+          {{ preReq.courseProfile }}
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div *ngIf="role !== 'student'" class="form-row">
+    <div class="form-group col-12">
+      <div class="form-check">
+        <input
+          [checked]="prefill?.active"
+          class="form-check-input"
+          formControlName="validationFormControl"
+          id="active"
+          type="checkbox"
+        />
+        <label class="form-check-label" for="active"> Active </label>
+      </div>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-12">
+      <label>Course Description</label>
+      <div>
+        <quill-editor
+          [placeholder]="prefill?.courseDescription"
+          [styles]="{ 'min-height': '120px' }"
+          class="content-editor course-editor"
+          formControlName="descriptionFormControl"
+        ></quill-editor>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!courseApproval" class="d-flex">
+    <button
+      [disabled]="!newCourseForm.valid || loading"
+      class="btn btn-secondary"
+      type="submit"
+    >
+      {{ prefill ? "Update Course" : "Create Course" }}
+    </button>
+    <div *ngIf="loading" class="ml-2 mt-1">
+      <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="courseApproval">
+    <button
+      (click)="courseApprove(true)"
+      class="btn btn-secondary mr-1"
+      type="button"
+    >
+      Approve
+    </button>
+    <button
+      (click)="courseApprove(false)"
+      class="btn btn-secondary"
+      type="button"
+    >
+      Reject
+    </button>
+  </div>
+</form>

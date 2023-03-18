@@ -1,0 +1,17 @@
+<nav class="navbar bg-primary elevation-2 footer" ngbNav>
+  <div class="d-flex justify-content-between footer-row">
+    <div class="navigation">
+      <ul class="nav" *ngIf="rolesList && rolesList.length > 1">
+        <li class="nav-item" *ngFor="let role of rolesList">
+          <button class="btn btn-link nav-link" [routerLink]="role?.role?.role">
+            {{ role?.role?.role }}
+          </button>
+        </li>
+      </ul>
+    </div>
+    <div class="copyright">
+      © 2021 Wayne State University
+      <a href="#" class="btn btn-link">Privacy and University Policies</a>
+    </div>
+  </div>
+</nav>

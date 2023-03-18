@@ -1,0 +1,374 @@
+<script src="pow-viewer.component.ts"></script>
+<div *ngIf="activePow?.id === undefined && role === 'student'" class="p-4">
+  <ngb-alert [dismissible]="false" [type]="'info'" class="no-data-message"
+    >You don't have an active POW. Would you like to create a new one?<br />
+    <button class="btn btn-secondary mt-3" routerLink="/student/create">
+      Create New POW
+    </button>
+  </ngb-alert>
+</div>
+<div *ngIf="activePow?.id === undefined && role !== 'student'" class="p-4">
+  <ngb-alert [dismissible]="false" [type]="'info'" class="no-data-message">
+    No POW Selected. Please select one from the left.
+  </ngb-alert>
+</div>
+<div *ngIf="activePow?.id !== undefined">
+  <div class="row">
+    <div *ngIf="role !== 'student'" class="col-12">
+      <div class="row p-4">
+        <div class="col-6 pow-txt-1">
+          <span class="font-weight-bold">
+            {{ activePow?.student?.user?.firstName }}
+            {{ activePow?.student?.user?.middleIn }}
+            {{ activePow?.student?.user?.lastName }}
+          </span>
+          <div class="mt-2">Name</div>
+        </div>
+        <div class="col-6 pow-txt-1">
+          <span class="font-weight-bold">
+            {{ activePow?.student?.user?.accessID }}
+          </span>
+          <div class="mt-2">AccessID</div>
+        </div>
+        <div class="col-6 pow-txt">
+          <span class="font-weight-bold">
+            {{ activePow?.student?.user?.email }}
+          </span>
+          <div class="mt-2">Email</div>
+        </div>
+        <div class="col-6 pow-txt">
+          <span class="font-weight-bold">
+            {{ activePow?.student?.user?.telephone }}
+          </span>
+          <div class="mt-2">Telephone</div>
+        </div>
+        <div class="col-6 pow-txt">
+          <span class="font-weight-bold">
+            {{ activePow?.student?.user?.address }} <br />
+            {{ activePow?.student?.user?.city }}
+            <span *ngIf="activePow?.student?.user?.state">, </span>
+            {{ activePow?.student?.user?.state }}
+            {{ activePow?.student?.user?.zipCode }} <br />
+            {{ activePow?.student?.user?.country }}
+          </span>
+          <div class="mt-2">Home Address</div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="role !== 'student'" class="col-12">
+      <hr />
+    </div>
+    <div class="col-12">
+      <div
+        *ngIf="
+          role === 'student' &&
+          (activePow?.status === 'POW Rejected' ||
+            activePow?.status === 'Graduation Rejected')
+        "
+        class="row pl-4 pt-4 pr-4"
+      >
+        <div class="col-12">
+          <ngb-alert
+            [dismissible]="false"
+            [type]="'danger'"
+            class="no-data-message"
+            >Your POW has been rejected. Would you like to create a new one?<br />
+            <button class="btn btn-secondary mt-3" routerLink="/student/create">
+              Create New POW
+            </button>
+          </ngb-alert>
+        </div>
+      </div>
+      <div class="row p-4">
+        <div class="col-12 pow-txt-1">
+          <span class="font-weight-bold title-txt">
+            {{ activePow?.specialization?.specialization }}
+          </span>
+          <div class="mt-2">Specialization</div>
+        </div>
+        <div class="col-6 pow-txt">
+          <app-fancy-form-input
+            [editable]="activePow?.status === 'Active' && role === 'student'"
+            [inputs]="orientationTermInput"
+            [model]="'pow'"
+          ></app-fancy-form-input>
+        </div>
+        <div class="col-6 pow-txt">
+          <app-fancy-form-input
+            [editable]="activePow?.status === 'Active' && role === 'student'"
+            [inputs]="firstTermInput"
+            [model]="'pow'"
+          ></app-fancy-form-input>
+        </div>
+        <div class="col-6 pow-txt">
+          <span class="font-weight-bold">
+            {{ displayDate(activePow?.creationDate) }}
+          </span>
+          <div class="mt-2">POW Created</div>
+        </div>
+        <div class="col-6 pow-txt">
+          <span *ngIf="!activePow?.petitionDate" class="font-weight-bold">
+            Not Petitioned
+          </span>
+          <span *ngIf="activePow?.petitionDate" class="font-weight-bold">
+            {{ displayDate(activePow?.petitionDate) }}
+          </span>
+          <div class="mt-2">Petition Date</div>
+        </div>
+        <div class="col-6 pow-txt">
+          <span
+            *ngIf="!activePow?.candidacyApprovalDate"
+            class="font-weight-bold"
+          >
+            Not Approved Yet
+          </span>
+          <span
+            *ngIf="activePow?.candidacyApprovalDate"
+            class="font-weight-bold"
+            >{{ displayDate(activePow?.candidacyApprovalDate) }}</span
+          >
+          <div class="mt-2">POW Approval Date</div>
+        </div>
+        <div class="col-6 pow-txt">
+          <span
+            *ngIf="!activePow?.graduationApprovalDate"
+            class="font-weight-bold"
+          >
+            Not Approved Yet
+          </span>
+          <span
+            *ngIf="activePow?.graduationApprovalDate"
+            class="font-weight-bold"
+            >{{ displayDate(activePow?.graduationApprovalDate) }}</span
+          >
+          <div class="mt-2">Graduation Approval Date</div>
+        </div>
+        <div class="col-6 pow-txt">
+          <span
+            *ngIf="activePow?.candidacyApproval?.user?.firstName"
+            class="font-weight-bold"
+          >
+            {{ activePow?.candidacyApproval?.user?.firstName }}
+            {{ activePow?.candidacyApproval?.user?.lastName }}
+          </span>
+          <span
+            *ngIf="!activePow?.candidacyApproval?.user?.firstName"
+            class="font-weight-bold"
+          >
+            Not Approved Yet
+          </span>
+          <div class="mt-2">POW Approved By</div>
+        </div>
+        <div class="col-6 pow-txt">
+          <span
+            *ngIf="activePow?.graduationApproval?.user?.firstName"
+            class="font-weight-bold"
+          >
+            {{ activePow?.graduationApproval?.user?.firstName }}
+            {{ activePow?.graduationApproval?.user?.lastName }}
+          </span>
+          <span
+            *ngIf="!activePow?.graduationApproval?.user?.firstName"
+            class="font-weight-bold"
+          >
+            Not Approved Yet
+          </span>
+          <div class="mt-2">Graduation Approved By</div>
+        </div>
+        <div class="col-6 pow-txt">
+          <span *ngIf="!activePow?.completionDate" class="font-weight-bold">
+            Not Completed
+          </span>
+          <span *ngIf="activePow?.completionDate" class="font-weight-bold">
+            {{ displayDate(activePow?.completionDate) }}
+          </span>
+          <div class="mt-2">Completion Date</div>
+        </div>
+        <div class="col-12 pow-txt text-center">
+          <span class="font-weight-bold">
+            <ngb-alert
+              *ngIf="
+                activePow?.status === 'Active' ||
+                activePow?.status === 'POW Approved' ||
+                activePow?.status === 'Graduation Approved' ||
+                activePow?.status === 'Graduated'
+              "
+              [dismissible]="false"
+              type="success"
+            >
+              POW Status: {{ activePow?.status }}
+            </ngb-alert>
+            <ngb-alert
+              *ngIf="
+                activePow?.status === 'Pending Approval' ||
+                activePow?.status === 'Pending Graduation'
+              "
+              [dismissible]="false"
+              type="warning"
+            >
+              POW Status: {{ activePow?.status }}
+            </ngb-alert>
+            <ngb-alert
+              *ngIf="
+                activePow?.status === 'Void' ||
+                activePow?.status === 'POW Rejected' ||
+                activePow?.status === 'Graduation Rejected'
+              "
+              [dismissible]="false"
+              type="danger"
+            >
+              POW Status: {{ activePow?.status }}
+            </ngb-alert>
+          </span>
+        </div>
+        <div class="col-12 pow-txt-1">
+          <div class="mt-1">
+            <span
+              >Completed Credits:
+              <span class="font-weight-bold">{{ creditsEarned }}</span></span
+            >
+            <span class="txt-right"
+              >Total Credits:
+              <span class="font-weight-bold">{{ creditsNeeded }}</span></span
+            >
+          </div>
+          <p>
+            <ngb-progressbar
+              [max]="creditsNeeded"
+              [showValue]="true"
+              [value]="creditsEarned"
+              type="primary"
+            ></ngb-progressbar>
+          </p>
+          <div class="mt-1">
+            <span
+              >Credits Planned:
+              <span class="font-weight-bold">{{ creditsPlanned }}</span></span
+            >
+          </div>
+          <p>
+            <ngb-progressbar
+              [max]="creditsNeeded"
+              [showValue]="true"
+              [value]="creditsPlanned"
+              type="secondary"
+            ></ngb-progressbar>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div
+      *ngIf="powCourses !== undefined && powCourses.length > 0"
+      class="col-12"
+    >
+      <div *ngFor="let courseType of powCourses">
+        <app-smart-table
+          (deletedRow)="deletePowCourse($event)"
+          (editedRow)="editPowCourse($event, courseType?.course_type)"
+          [tableActions]="actions(courseType?.allow_addition!)"
+          [tableColumns]="columns"
+          [tableData]="courseType?.courses"
+          [tableHeaderHide]="false"
+          [tableTitle]="
+            courseType?.course_type + ' (' + courseType?.credits + ' Required)'
+          "
+        ></app-smart-table>
+        <app-modal
+          (modalClosed)="closeModal($event, courseType.course_type!)"
+          *ngIf="courseType?.allow_addition && role === 'student'"
+          [icon]="'class'"
+          [modalId]="courseType?.course_type"
+          [modalTitle]="'Add Courses'"
+          [openModal]="courseType?.open_modal!"
+        >
+          <app-course-table
+            (selectedCourses)="
+              addSelectedCourses($event, courseType.course_type!)
+            "
+            *ngIf="courseType?.allow_addition && role === 'student'"
+            [courseAdd]="true"
+            [editable]="false"
+            [enabledCourses]="enabledCourses(courseType?.courses!)"
+            [preSelectedCourses]="courses"
+            [role]="this.role"
+            [selectable]="true"
+          ></app-course-table>
+        </app-modal>
+        <button
+          (click)="courseType.open_modal = true"
+          *ngIf="
+            courseType?.allow_addition &&
+            role === 'student' &&
+            activePow?.status === 'Active'
+          "
+          class="btn btn-secondary mt-4 ml-4"
+          type="button"
+        >
+          Add Courses
+        </button>
+      </div>
+    </div>
+    <div class="col-12">
+      <div
+        *ngIf="role === 'Admin' && activePow?.status === 'Pending Graduation'"
+        class="p-4"
+      >
+        <button
+          (click)="sendGraduationApproval(true)"
+          [disabled]="loading"
+          class="btn btn-secondary mr-3"
+        >
+          Approve Graduation
+        </button>
+        <button
+          (click)="sendGraduationApproval(false)"
+          [disabled]="loading"
+          class="btn btn-secondary"
+        >
+          Reject Graduation
+        </button>
+      </div>
+
+      <div
+        *ngIf="role === 'Adviser' && activePow?.status === 'Pending Approval'"
+        class="p-4"
+      >
+        <button
+          (click)="sendCandidacyApproval(true)"
+          [disabled]="loading"
+          class="btn btn-secondary mr-3"
+        >
+          Approve POW
+        </button>
+        <button
+          (click)="sendCandidacyApproval(false)"
+          [disabled]="loading"
+          class="btn btn-secondary"
+        >
+          Reject POW
+        </button>
+      </div>
+      <div *ngIf="role === 'student'" class="mt-4 p-4">
+        <button
+          (click)="submitForCandidacy()"
+          [disabled]="!studentCandidacy || loading"
+          class="btn btn-secondary mr-3"
+        >
+          Submit for Approval
+        </button>
+        <button
+          (click)="submitForApproval()"
+          [disabled]="!studentGrad || loading"
+          class="btn btn-secondary"
+        >
+          Submit for Graduation
+        </button>
+      </div>
+      <div *ngIf="loading" class="ml-2 mt-1">
+        <div class="spinner-border text-primary" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

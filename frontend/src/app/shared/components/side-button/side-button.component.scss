@@ -1,0 +1,40 @@
+@import "../../../../assets/theme";
+@import "~bootstrap/scss/bootstrap";
+
+.side-button {
+  background: none;
+  border: none;
+  max-width: 70px;
+  color: theme-color("dark");
+
+  .nav-icon {
+    margin: 0 auto;
+    display: block;
+    font-size: 4em;
+  }
+  .nav-txt {
+    text-transform: uppercase;
+    font-weight: 500;
+    text-align: center;
+  }
+}
+
+.side-button.active-link {
+  border-bottom: 5px solid theme-color("secondary");
+}
+
+.side-button:hover {
+    color: theme-color("primary");
+}
+
+@media (max-width: 992px) {
+  .side-button {
+    max-width: 75px;
+    .nav-icon {
+      font-size: 2em;
+    }
+    .nav-txt {
+      font-size: 0.8em;
+    }
+  }
+}

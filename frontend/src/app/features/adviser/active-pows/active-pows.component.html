@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col-12">
+    <div class="row">
+      <div class="col-5">
+        <app-card [cardTitle]="'POWs Awaiting Approval'" [titleIcon]="'info'">
+          <app-pows-for-approval [isAdviser]="true"></app-pows-for-approval>
+        </app-card>
+
+        <div class="mt-2">
+          <app-card [cardTitle]="'Messages'" [titleIcon]="'info'">
+            <app-messages></app-messages>
+          </app-card>
+        </div>
+      </div>
+      <div class="col-7">
+        <app-card [cardTitle]="'Student POW'" [titleIcon]="'info'">
+          <app-pow-viewer [role]="'Adviser'"></app-pow-viewer>
+        </app-card>
+      </div>
+    </div>
+  </div>
+</div>

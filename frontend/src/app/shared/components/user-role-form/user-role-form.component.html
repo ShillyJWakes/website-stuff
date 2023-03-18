@@ -1,0 +1,133 @@
+<form [formGroup]="newRoleForm" (ngSubmit)="onSubmit()">
+  <div class="form-row">
+    <div class="form-group col-12">
+      <div class="col-12">
+        <p class="font-weight-bold">
+          If the user role has changed, please select the user's new role(s):
+        </p>
+        <div class="row">
+          <fieldset id="handleStudent">
+            <div [ngClass]="'btn btn-default'" data-toggle="buttons">
+              <label for="handleStudent" class="control-label input-group"
+                >Student</label
+              >
+              <label class="btn btn-default">
+                <input
+                  type="radio"
+                  name="handleStudent"
+                  value="Yes"
+                  [checked]="newRoleForm.value.isStudent === true"
+                  (click)="setStudentRole(true)"
+                />Active
+              </label>
+              <label
+                [ngClass]="
+                  isStudent === false ? 'btn btn-default' : 'btn btn-default'
+                "
+              >
+                <input
+                  type="radio"
+                  name="handleStudent"
+                  value="No"
+                  [checked]="newRoleForm.value.isStudent === false"
+                  (click)="setStudentRole(false)"
+                />Inactive
+              </label>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-12">
+      <div class="col-12">
+        <div class="row">
+          <fieldset id="handleAdviser">
+            <div [ngClass]="'btn btn-default'" data-toggle="buttons">
+              <label for="handleAdviser" class="control-label input-group"
+                >Adviser</label
+              >
+              <label class="btn btn-default">
+                <input
+                  type="radio"
+                  name="handleAdviser"
+                  value="Yes"
+                  [checked]="newRoleForm.value.isAdviser === true"
+                  (click)="setAdviserRole(true)"
+                />Active
+              </label>
+              <label
+                [ngClass]="
+                  isAdviser === false ? 'btn btn-default' : 'btn btn-default'
+                "
+              >
+                <input
+                  type="radio"
+                  name="handleAdviser"
+                  value="No"
+                  [checked]="newRoleForm.value.isAdviser === false"
+                  (click)="setAdviserRole(false)"
+                />Inactive
+              </label>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-12">
+      <div class="col-12">
+        <div class="row">
+          <fieldset id="handleAdviser">
+            <div [ngClass]="'btn btn-default'" data-toggle="buttons">
+              <label for="handleAdmin" class="control-label input-group"
+                >Admin</label
+              >
+              <label class="btn btn-default">
+                <input
+                  type="radio"
+                  name="handleAdmin"
+                  value="Yes"
+                  [checked]="newRoleForm.value.isAdmin === true"
+                  (click)="setAdminRole(true)"
+                />Active
+              </label>
+              <label
+                [ngClass]="
+                  isAdmin === false ? 'btn btn-default' : 'btn btn-default'
+                "
+              >
+                <input
+                  type="radio"
+                  name="handleAdmin"
+                  value="No"
+                  [checked]="newRoleForm.value.isAdmin === false"
+                  (click)="setAdminRole(false)"
+                />Inactive
+              </label>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="rolesEmpty === true" class="error-text">
+    At least one role should be listed as "Active."
+  </div>
+
+  <div class="d-flex">
+    <button type="submit" class="btn btn-secondary mt-3">
+      Update User Roles
+    </button>
+    <div *ngIf="sending === true" class="ml-2 mt-3">
+      <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,31 @@
+<div class="row d-flex align-content-stretch">
+  <div>
+    <app-sidenav>
+      <app-side-button
+        [icon]="'school'"
+        [link]="'/admin/course-mgmt'"
+        [text]="'Courses & Degrees'"
+      ></app-side-button>
+      <app-side-button
+        [icon]="'event_note'"
+        [link]="'/admin/terms'"
+        [text]="'Terms & Grades'"
+      ></app-side-button>
+      <app-side-button
+        [icon]="'class'"
+        [link]="'/admin/pows'"
+        [text]="'Student POWs'"
+      ></app-side-button>
+      <app-side-button
+        [icon]="'account_circle'"
+        [link]="'/admin/users'"
+        [text]="'Manage Users'"
+      ></app-side-button>
+    </app-sidenav>
+  </div>
+  <div class="flex-grow-1">
+    <app-main-content>
+      <router-outlet></router-outlet>
+    </app-main-content>
+  </div>
+</div>

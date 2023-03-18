@@ -1,0 +1,29 @@
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header bg-primary">
+    <span class="material-icons modal-header-icon">
+      {{ icon }}
+    </span>
+    <h4 [id]="modalId" class="modal-title">{{ modalTitle }}</h4>
+    <button
+      (click)="c()"
+      aria-label="Close"
+      class="close btn btn-secondary close-btn"
+      type="button"
+    >
+      <span class="material-icons close-modal-icon"> close </span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ng-content></ng-content>
+  </div>
+  <div class="modal-footer">
+    <button
+      (click)="c()"
+      [id]="modalId + 'button'"
+      class="btn btn-secondary"
+      type="button"
+    >
+      Close
+    </button>
+  </div>
+</ng-template>

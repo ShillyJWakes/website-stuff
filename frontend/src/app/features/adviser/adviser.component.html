@@ -1,0 +1,17 @@
+<div class="row d-flex align-content-stretch">
+  <div>
+    <app-sidenav>
+      <app-side-button
+        [text]="'Active POWs'"
+        [icon]="'school'"
+        [link]="'/adviser/active-pows'"
+      ></app-side-button>
+      <br />
+    </app-sidenav>
+  </div>
+  <div class="flex-grow-1">
+    <app-main-content>
+      <router-outlet></router-outlet>
+    </app-main-content>
+  </div>
+</div>

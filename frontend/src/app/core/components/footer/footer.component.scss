@@ -1,0 +1,34 @@
+@import "../../../../assets/theme";
+@import "~bootstrap/scss/bootstrap";
+
+.footer {
+  height: 50px;
+  color: #fff;
+  font-size: 0.8em;
+  padding: 5px 10px;
+  .footer-row {
+    width: 100%;
+    .copyright {
+      text-align: right;
+      a {
+        font-size: 1em;
+        color: #fff;
+        text-decoration: underline;
+        text-transform: capitalize;
+        display: block;
+        padding: 0;
+        margin: 0;
+      }
+    }
+    .navigation {
+      text-align: left;
+      .nav-link {
+        font-size: 1em;
+        color: #fff;
+        margin-left: 10px;
+        border: 1px solid theme-color("primary-2");
+        text-transform: uppercase;
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+<div class="row">
+  <div class="col-5">
+    <div class="mb-4">
+      <app-card
+        [titleIcon]="'assignment_ind'"
+        [cardTitle]="'Create A New User'"
+      >
+        <app-user-form [create]="true" [prefill]=""></app-user-form>
+      </app-card>
+    </div>
+  </div>
+  <div class="col-7">
+    <div class="mb-4">
+      <app-card [titleIcon]="'input'" [cardTitle]="'Upload Users Via CSV'">
+        <app-user-csv-upload></app-user-csv-upload>
+      </app-card>
+    </div>
+    <div>
+      <app-card
+        [titleIcon]="'supervisor_account'"
+        [cardTitle]="'Existing Users'"
+      >
+        <app-user-table></app-user-table>
+      </app-card>
+    </div>
+  </div>
+</div>
