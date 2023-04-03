@@ -2,3 +2,7 @@
 __pycache__
 .pyc
 backend/.env
+backend/.flaskenv
+backend/env.example
+backend/sisportal_nginx.example
+backend/sisportal.service.example
