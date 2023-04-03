@@ -48,7 +48,7 @@ class POW(db.Model):
 class StudentPOWCourse(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     course_id = db.Column(db.Integer, db.ForeignKey('course.id'), nullable=False)
-    pow_id = db.Column(db.Integer, db.ForeignKey('POW.id'), nullable=False)
+    pow_id = db.Column(db.Integer, db.ForeignKey('pow.id'), nullable=False) #Lowercase pow required
     term_id = db.Column(db.Integer, db.ForeignKey('term.id'))
     course_type = db.Column(db.String(80))
     course = db.relationship('Course', backref='pow_course')

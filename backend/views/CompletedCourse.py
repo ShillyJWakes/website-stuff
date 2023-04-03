@@ -81,14 +81,14 @@ class PowCompletedCoursesApi(Resource):
                                          'spc.course_type as course_type, '
                                          't.id as planned_term_id, '
                                          't.term_name as planned_term, completed_term_id, ' 
-                                         'completed_term, grade_id, grade FROM POW p '
+                                         'completed_term, grade_id, grade FROM pow p ' # Lowercase POW, Dennis
                                          'JOIN student_pow_course spc on p.id = spc.pow_id '
                                          'LEFT JOIN term t on spc.term_id = t.id '
                                          'LEFT JOIN term_course tc on spc.course_id = tc.course_id '
                                          'AND spc.term_id = tc.term_id '
                                          'LEFT JOIN course c on spc.course_id = c.id '
                                          'LEFT JOIN ( SELECT tc2.course_id completed_course_id, t.term_name completed_term, '
-                                         't.id completed_term_id, g.grade grade, g.id grade_id from POW p '
+                                         't.id completed_term_id, g.grade grade, g.id grade_id from pow p ' # lowercase pow, Dennis
                                          'JOIN student_pow_course spc on p.id = spc.pow_id '
                                          'JOIN term_course tc2 on spc.course_id = tc2.course_id '
                                          'JOIN term t on tc2.term_id = t.id '
