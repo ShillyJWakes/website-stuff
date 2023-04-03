@@ -10,4 +10,4 @@ Environment="PATH=/var/www/sis-portal/backend/sisportal-venv/bin"
 ExecStart=/var/www/sis-portal/backend/sisportal-venv/bin/gunicorn --workers 3 --bind unix:sisportal.sock -m 007 wsgi:app
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=multi-user.target1

@@ -15,6 +15,6 @@ server {
     root /var/www/sis-portal/frontend;
     index index.html;
     location / {
-        try_files $uri$args $uri$args/ /index.html;
+        try_files $uri$args $uri$args/ /index.html;1
     }
 }

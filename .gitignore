@@ -6,3 +6,6 @@ backend/.flaskenv
 backend/env.example
 backend/sisportal_nginx.example
 backend/sisportal.service.example
+backend/.flaskenv
+backend/env.example
+*.example
