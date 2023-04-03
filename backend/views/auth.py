@@ -20,7 +20,7 @@ class SignupApi(Resource):
             roles = body["roles"]
             del body["roles"]
             user = user_schema.load(body)
-            user.hash_password()
+            user.hash_password(body.get('password'))
             db.session.add(user)
             db.session.commit()
             for role in roles:
@@ -86,8 +86,8 @@ class UpdatePasswordApi(Resource):
             if authorized:
                 raise Exception("old_password and new_password is same.")
 
-            user.password = body.get('password')
-            user.hash_password()
+            #user.password = body.get('password')
+            user.hash_password(body.get('password'))
             db.session.commit()
             msg = Message('Password Changed', sender='pow.sis.mail@gmail.com', recipients=[user.email])
             msg.body = "Hello,\n Updated your password."

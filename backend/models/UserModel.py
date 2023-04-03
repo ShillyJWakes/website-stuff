@@ -89,8 +89,8 @@ class User(db.Model):
         return '<User %r>' % self.access_id
 
     # hashes password before saving to db
-    def hash_password(self):
-        self.password = generate_password_hash(self.password).decode('utf8')
+    def hash_password(self, password):
+        self.password = generate_password_hash(password).decode('utf8')
 
     # checks hashed password
     def check_password(self, password):

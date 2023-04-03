@@ -58,7 +58,7 @@ class UsersApi(Resource):
             user = new_user_schema.load(body, session=db.session)
             temp_password = random.randint(100000,999999)
             user.password = str(temp_password)
-            user.hash_password()
+            user.hash_password(user.password)
             db.session.add(user)
             db.session.commit()
             for role in roles:
@@ -246,7 +246,7 @@ class UploadUsersApi(Resource):
 
                 new_users_list.append(added_user_credentials)
 
-                my_user.hash_password()
+                my_user.hash_password(body.get('password'))
 
                 db.session.add(my_user)
                 db.session.commit();
@@ -328,7 +328,7 @@ class UserPasswordApi(Resource):
             patch_schema = UserSchema()
             return_schema = UserSchema(exclude=("password",))
             user = patch_schema.load(request.get_json(), instance=User.query.get_or_404(user_id), partial=True)
-            user.hash_password()
+            user.hash_password(user.password)
             db.session.commit()
             return return_schema.dump(user), 200
         except Exception as e:
