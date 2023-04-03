@@ -112,6 +112,10 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+.flaskenv
+env.example
+sisportal_nginx.example
+sisportal.service.example
 
 # Spyder project settings
 .spyderproject
