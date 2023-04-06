@@ -49,7 +49,7 @@ export class TermTableComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.actions = {
       edit: true,
-      delete: false,
+      delete: true,
       add: true,
       custom: [
         {
