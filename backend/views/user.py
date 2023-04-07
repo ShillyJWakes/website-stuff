@@ -163,6 +163,9 @@ class AdvisersApi(Resource):
             raise e
 
 #Endpoint used for multiple user uploads via a csv file upload
+# This function has been re-written, I will keep the legacy code on hand,
+# but I don't see a case in which we need to revert back 
+# especially as it didn't work and was poorly optimized.
 class UploadUsersApi(Resource):
     @jwt_required()
     def post(self):
@@ -173,18 +176,8 @@ class UploadUsersApi(Resource):
             #determines the url in which the request was send
             url = request.form["url"]
 
-            #encoding the csvfile
-            #csv_file = TextIOWrapper(csv_file, encoding='utf-8')
-
-            #reading the csv file with the csv object, delimiting the commas within the file
-            #csv_reader = csv.reader(csv_file, delimiter=',')
-
-            #storing the data for use so the endpoint only has to read the file once.
-            #csv_data = []
+            #Reading CSV file into dataframe for manipulating and extracting info
             data = pd.read_csv(csv_file, header=None)
-
-            #for row in csv_reader:
-             #   csv_data.append(row)
 
             new_users_list = []
 
@@ -211,8 +204,6 @@ class UploadUsersApi(Resource):
             new_access_ids = data[0].tolist()
 
             already_user = [user for user in data[0] if user not in recorded_users]
-            #if len(already_user) > 0:
-            #    abort(500, description=str('User(s) Already exists: ' + already_user)
             #Checking to see if there are any duplicate access IDs within the file that was provided
             length_x = len(new_access_ids)
             length_y = len(set(new_access_ids))
@@ -220,7 +211,7 @@ class UploadUsersApi(Resource):
             if length_x != length_y:
                 abort(500, description="Duplicate Entries in File")
             
-            extract_roles = data.apply(role_checker, axis=1)
+            extract_roles = data.apply(role_check, axis=1)
             #Creating the users from the csv file
             i = 0
             for record in data[0]:
