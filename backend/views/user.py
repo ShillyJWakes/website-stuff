@@ -4,6 +4,7 @@ from flask_mail import Message
 
 from io import TextIOWrapper
 import csv
+import pandas as pd
 
 from flask import request, render_template, abort
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -17,6 +18,19 @@ from schemas.UserSchema import user_schema, UserSchema, StudentAdviserSchema
 
 from models.db import db, mail
 
+
+
+def role_check(record):
+	role1 = record[1]
+	if record[2] == None:
+		return [role1]
+	else:
+		role2 = record[2]
+		if record[3] == None:
+			return [role1, role2]
+		else:
+			role3 = record[3]
+			return [role1, role2, role3]
 
 # secure call to get logged in user's personal information
 # returns user info as JSON object'
@@ -160,21 +174,23 @@ class UploadUsersApi(Resource):
             url = request.form["url"]
 
             #encoding the csvfile
-            csv_file = TextIOWrapper(csv_file, encoding='utf-8')
+            #csv_file = TextIOWrapper(csv_file, encoding='utf-8')
 
             #reading the csv file with the csv object, delimiting the commas within the file
-            csv_reader = csv.reader(csv_file, delimiter=',')
+            #csv_reader = csv.reader(csv_file, delimiter=',')
 
             #storing the data for use so the endpoint only has to read the file once.
-            csv_data = []
+            #csv_data = []
+            data = pd.read_csv(csv_file, header=None)
 
-            for row in csv_reader:
-                csv_data.append(row)
+            #for row in csv_reader:
+             #   csv_data.append(row)
 
             new_users_list = []
 
             existing_users = UserSchema(many=True, exclude=(
                     "id",
+            		"email",
                     "first_name",
                     "middle_name",
                     "last_name",
@@ -192,36 +208,30 @@ class UploadUsersApi(Resource):
 
             recorded_users = existing_users.dump(User.query.all())
 
-            new_access_ids = []
+            new_access_ids = data[0].tolist()
 
-            #Checking to see if the access IDs or emails provided in the file are already in the system
-            for row in csv_data:
-                new_access_ids.append(row[0])
-                user_info_from_file= {
-                        "email": row[0] + "@wayne.edu",
-                        "access_id": row[0],
-                    } 
-                for user in recorded_users:
-                    if(user_info_from_file["access_id"] == user["access_id"] or user_info_from_file["email"] == user["email"]):
-                        abort(500, description="User Already Exists")
-
-
+            already_user = [user for user in data[0] if user not in recorded_users]
+            #if len(already_user) > 0:
+            #    abort(500, description=str('User(s) Already exists: ' + already_user)
             #Checking to see if there are any duplicate access IDs within the file that was provided
-            if len(new_access_ids) != len(set(new_access_ids)):
-                abort(500, description="Duplicate Entries in File")  
-
-
+            length_x = len(new_access_ids)
+            length_y = len(set(new_access_ids))
+                      
+            if length_x != length_y:
+                abort(500, description="Duplicate Entries in File")
+            
+            extract_roles = data.apply(role_checker, axis=1)
             #Creating the users from the csv file
-            for row in csv_data:
-
+            i = 0
+            for record in data[0]:
                 initial_password = random.randint(100000,999999)
 
-                roles = []
+                user_roles = extract_roles[i]
         
                 body = {
-                    "email": row[0] + "@wayne.edu",
-                    "active":False,
-                    "access_id": row[0],
+                    "email": record + "@wayne.edu",
+                    "active":True,
+                    "access_id": record,
                     "password": str(initial_password)
                 }
 
@@ -251,15 +261,15 @@ class UploadUsersApi(Resource):
                 db.session.add(my_user)
                 db.session.commit();
 
-                user = User.query.filter(User.access_id == row[0]).all()
+                user = User.query.filter(User.access_id == record).all()
                 user_get_schema = UserSchema(exclude=("password",))
                 user_id = user_get_schema.dump(user[0])["id"]
 
-                for role in row[1:]:
-                     roles.append(role)
+                #for role in row[1:]:
+                 #    roles.append(role)
 
                 #giving the new users that have been added the roles specified in the file
-                for new_role in roles:
+                for new_role in user_roles:
                     if(new_role == "student"):
                         new_user_role = UserRole(user_id = user_id, role_id=1)
                         db.session.add(new_user_role)
@@ -270,6 +280,7 @@ class UploadUsersApi(Resource):
                         new_user_role = UserRole(user_id = user_id, role_id=3)
                         db.session.add(new_user_role)
 
+                i +=1
                 db.session.commit() 
 
 
