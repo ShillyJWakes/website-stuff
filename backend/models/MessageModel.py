@@ -6,8 +6,8 @@ from .UserModel import User
 class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     sender_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    pow_id = db.Column(db.Integer, db.ForeignKey('POW.id'), nullable=False)
+    pow_id = db.Column(db.Integer, db.ForeignKey('pow.id'), nullable=False) #Switched to Lowercase pow, Dennis
     message = db.Column(db.Text, nullable=False)
     sender = db.relationship('User', backref='sender_messages', foreign_keys=[sender_id])
     send_time = db.Column(db.DateTime)
-    pow = db.relationship('POW', backref='messages')
+    #pow = db.relationship('POW', backref='messages')

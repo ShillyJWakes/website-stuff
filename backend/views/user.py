@@ -2,8 +2,6 @@ import json
 import random
 from flask_mail import Message
 
-from io import TextIOWrapper
-import csv
 import pandas as pd
 
 from flask import request, render_template, abort
@@ -20,17 +18,7 @@ from models.db import db, mail
 
 
 
-def role_check(record):
-	role1 = record[1]
-	if record[2] == None:
-		return [role1]
-	else:
-		role2 = record[2]
-		if record[3] == None:
-			return [role1, role2]
-		else:
-			role3 = record[3]
-			return [role1, role2, role3]
+
 
 # secure call to get logged in user's personal information
 # returns user info as JSON object'
@@ -165,10 +153,22 @@ class AdvisersApi(Resource):
 #Endpoint used for multiple user uploads via a csv file upload
 # This function has been re-written, I will keep the legacy code on hand,
 # but I don't see a case in which we need to revert back 
-# especially as it didn't work and was poorly optimized.
+# especially as it didn't work and was poorly optimized. -Dennis
 class UploadUsersApi(Resource):
     @jwt_required()
     def post(self):
+        # Function for iteratively inserting roles
+        def role_check(record):
+            role1 = record[1]
+            if record[2] == None:
+                return [role1]
+            else:
+                role2 = record[2]
+                if record[3] == None:
+                    return [role1, role2]
+                else:
+                    role3 = record[3]
+                    return [role1, role2, role3]
         try:
             #finds the file based on the field name in the request
             csv_file = request.files['file']
@@ -256,8 +256,6 @@ class UploadUsersApi(Resource):
                 user_get_schema = UserSchema(exclude=("password",))
                 user_id = user_get_schema.dump(user[0])["id"]
 
-                #for role in row[1:]:
-                 #    roles.append(role)
 
                 #giving the new users that have been added the roles specified in the file
                 for new_role in user_roles:
