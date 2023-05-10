@@ -123,7 +123,7 @@ export class SpecializationViewerComponent implements OnInit, OnDestroy {
     };
     this.termService
       .getAllTerms({
-        filter: {},
+        filter: {active: ["eq", true]},
         order: '',
         page: 1,
         perPage: 10,
