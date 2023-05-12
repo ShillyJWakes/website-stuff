@@ -34,8 +34,7 @@ class POW(db.Model):
     orientation_term_id = db.Column(db.Integer, db.ForeignKey('term.id'))
     first_class_term_id = db.Column(db.Integer, db.ForeignKey('term.id'))
     status = db.Column(ChoiceType(STATUS), default='Void')
-    # Not sure this relationship is wrtitten appropriately, commented out allowed migration to occur
-    #pow_courses = db.relationship('StudentPOWCourse', backref='pow', cascade="all, delete-orphan")
+    pow_courses = db.relationship('StudentPOWCourse', backref='pow', cascade="all, delete-orphan")
     completion_date = db.Column(db.DateTime)
     orientation_term = db.relationship('Term', backref='orientation_pows', foreign_keys=[orientation_term_id])
     first_class_term = db.relationship('Term', backref='first_class_pows', foreign_keys=[first_class_term_id])
@@ -48,6 +47,7 @@ class POW(db.Model):
 
 
 class StudentPOWCourse(db.Model):
+    __tablename__ = 'student_pow_course'
     id = db.Column(db.Integer, primary_key=True)
     course_id = db.Column(db.Integer, db.ForeignKey('course.id'), nullable=False)
     pow_id = db.Column(db.Integer, db.ForeignKey('pow.id'), nullable=False) #Lowercase pow required

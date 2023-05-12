@@ -4,6 +4,7 @@ from .UserModel import UserRole
 
 
 class CompletedCourse(db.Model):
+    __tablename__ = 'completed_course'
     id = db.Column(db.Integer, primary_key=True)
     term_course_id = db.Column(db.Integer, db.ForeignKey('term_course.id'), nullable=False)
     student_id = db.Column(db.Integer, db.ForeignKey('user_role.id'), nullable=False)
@@ -14,6 +15,7 @@ class CompletedCourse(db.Model):
 
 
 class Grade(db.Model):
+    __tablename__ = 'grade'
     id = db.Column(db.Integer, primary_key=True)
     weight = db.Column(db.Float, nullable=False)
     grade = db.Column(db.String(3), nullable=False)

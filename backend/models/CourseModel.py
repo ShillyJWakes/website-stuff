@@ -8,6 +8,7 @@ from models.SpecializationModel import Specialization
 
 
 class Requirement(db.Model):
+    __tablename__ = 'requirement'
     id = db.Column(db.Integer, primary_key=True)
     parent_course_id = db.Column(db.Integer, db.ForeignKey('course.id'), nullable=False)
     child_course_id = db.Column(db.Integer, db.ForeignKey('course.id'), nullable=False)
@@ -17,6 +18,7 @@ class Requirement(db.Model):
 
 
 class Course(db.Model):
+    __tablename__ = 'course'
     id = db.Column(db.Integer, primary_key=True)
     course_profile = db.Column(db.String(150), nullable=False)
     number_of_credits = db.Column(db.Integer, nullable=False)

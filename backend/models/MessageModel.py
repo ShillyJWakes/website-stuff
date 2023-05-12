@@ -4,6 +4,7 @@ from .UserModel import User
 
 #Creates the Message entity with the fields that the database is expecting
 class Message(db.Model):
+    __tablename__ = 'message'
     id = db.Column(db.Integer, primary_key=True)
     sender_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     pow_id = db.Column(db.Integer, db.ForeignKey('pow.id'), nullable=False) #Switched to Lowercase pow, Dennis

@@ -68,6 +68,7 @@ STATES = [
 
 # defines user model attributes
 class User(db.Model):
+    __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(80))
     middle_name = db.Column(db.String(1))
@@ -100,6 +101,7 @@ class User(db.Model):
 
 #Creates the Role entity with the fields that the database is expecting
 class Role(db.Model):
+    __tablename__ = 'role'
     id = db.Column(db.Integer, primary_key=True)
     role = db.Column(db.String(20), nullable=False)
     users = db.relationship('UserRole', backref='role')
@@ -107,6 +109,7 @@ class Role(db.Model):
 #Creates the UserRole entity with the fields that the database is expecting
 #Connects the user with a role
 class UserRole(db.Model):
+    __tablename__ = 'user_role'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     role_id = db.Column(db.Integer, db.ForeignKey('role.id'), nullable=False)
@@ -115,6 +118,7 @@ class UserRole(db.Model):
 
 #Creates the StudentAdviser entity with the fields that the database is expecting
 class StudentAdviser(db.Model):
+    __tablename__ = 'student_adviser'
     id = db.Column(db.Integer, primary_key=True)
     student_id = db.Column(db.Integer, db.ForeignKey('user_role.id'), nullable=False)
     adviser_id = db.Column(db.Integer, db.ForeignKey('user_role.id'), nullable=False)

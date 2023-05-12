@@ -8,6 +8,7 @@ from sqlalchemy_utils import JSONType
 
 #Creates the Specialization entity with the fields that the database is expecting
 class Specialization(db.Model):
+    __tablename__ = 'specialization'
     id = db.Column(db.Integer, primary_key=True)
     specialization = db.Column(db.String(150), nullable=False)
     active = db.Column(db.Boolean, default=False, nullable=False)
@@ -23,6 +24,7 @@ class Specialization(db.Model):
 
 #Creates the SpecializationCourse entity with the fields that the database is expecting
 class SpecializationCourse(db.Model):
+    __tablename__ = 'specialization_course'
     id = db.Column(db.Integer, primary_key=True)
     course_id = db.Column(db.Integer, db.ForeignKey('course.id'), nullable=False)
     specialization_id = db.Column(db.Integer, db.ForeignKey('specialization.id'), nullable=False)
