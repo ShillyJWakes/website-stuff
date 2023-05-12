@@ -21,6 +21,7 @@ STATUS = [
 
 
 class POW(db.Model):
+    __tablename__ = 'pow' # Explicit name statement removes errors, Dennis
     id = db.Column(db.Integer, primary_key=True)
     student_id = db.Column(db.Integer, db.ForeignKey('user_role.id'), nullable=False)
     creation_date = db.Column(db.DateTime)
@@ -33,7 +34,8 @@ class POW(db.Model):
     orientation_term_id = db.Column(db.Integer, db.ForeignKey('term.id'))
     first_class_term_id = db.Column(db.Integer, db.ForeignKey('term.id'))
     status = db.Column(ChoiceType(STATUS), default='Void')
-    pow_courses = db.relationship('StudentPOWCourse', backref='pow', cascade="all, delete-orphan")
+    # Not sure this relationship is wrtitten appropriately, commented out allowed migration to occur
+    #pow_courses = db.relationship('StudentPOWCourse', backref='pow', cascade="all, delete-orphan")
     completion_date = db.Column(db.DateTime)
     orientation_term = db.relationship('Term', backref='orientation_pows', foreign_keys=[orientation_term_id])
     first_class_term = db.relationship('Term', backref='first_class_pows', foreign_keys=[first_class_term_id])

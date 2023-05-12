@@ -19,7 +19,8 @@ class UserSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         load_instance = True
         fields = ("id", "first_name", "middle_name", "last_name","active", "access_id", "email", "address", "address2", "city",
-                  "state", "zip_code", "country", "telephone", "roles", "token", "password")
+                  "secondary_email", "linkedin","state", "zip_code", 
+                  "country", "telephone", "roles", "token", "password")
         model = User
 
 
