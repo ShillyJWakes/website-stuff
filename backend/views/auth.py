@@ -14,7 +14,20 @@ from schemas.UserSchema import user_schema
 
 
 class SignupApi(Resource):
+    """Class for handling user sign up and insertion into database.
+
+    Args:
+        Resource : Converting to API resource (endpoint - /api/auth/signup)
+    """
     def post(self):
+        """Retrieves new user info and inserts info into user and user_role tables.
+
+        Raises:
+            e: Error passing, raises which ever corresponding error, typically 500.
+
+        Returns:
+            dict: dict containing the user.id and a 200 response code.
+        """
         try:
             body = request.get_json()
             roles = body["roles"]
@@ -33,10 +46,23 @@ class SignupApi(Resource):
             raise e
 
 
-# Logs in user if creds are valid
-# returns jwt access token
+
 class LoginApi(Resource):
+    """Login for users, verifying credentials and issuing authorization token.
+
+    Args:
+        Resource : Convert to API resource (endpoint - /api/auth/login).
+    """
     def post(self):
+        """Check user input against database to authorize login.
+
+        Raises:
+            UnauthorizedError: Input credentials do not match any records in database
+            InternalServerError: Problem querying the database
+
+        Returns:
+            JSON: JSON with authorization token and relevant user info, 200 response
+        """
         try:
             body = request.get_json()
             user = User.query.filter_by(email=body.get('email')).first()
@@ -53,12 +79,28 @@ class LoginApi(Resource):
 
 
 class ForgotPasswordApi(Resource):
+    """Process for requesting a new temporary password for users.
+
+    Args:
+        Resource : Converting to API resource (endpoint - /api/auth/forgot-password)
+    """
     def post(self):
+        """Verifies user email in database, sends temporary password to the email entered/on record.
+
+        Raises:
+            Exception: Email entered does not correspond to any user in the database
+            Exception: _description_
+
+        Returns:
+            _type_: _description_
+        """
         try:
             body = request.get_json()
             user = User.query.filter_by(email=body.get('email')).first()
-            if not user:
-                raise Exception("User is not exist.")
+            # Once secondary_email is implemented, will need to also query/check
+            # if email entered here is their secondary. Dennis, Ask Tim
+            if not user: 
+                raise Exception("User does not exist.")
             return_url = body.get('return_url')
             expires = datetime.timedelta(minutes=15)
             access_token = create_access_token(identity=str(user.id), expires_delta=expires)
@@ -73,8 +115,23 @@ class ForgotPasswordApi(Resource):
 
 
 class UpdatePasswordApi(Resource):
+    """Resource for updating password after recieving temp password.
+
+    Args:
+        Resource : Converting to API resource (endpoint - /api/auth/update-password).
+    """
     # @jwt_required()
     def post(self):
+        """Fetches user info, checks password validity, updates database with new password.
+
+        Raises:
+            Exception: Entered email does not match any user.
+            Exception: Old password matches new password.
+            Exception: Catch all, typically 500 server errors.
+
+        Returns:
+            JSON: JSON of success message, 200 status.
+        """
         try:
             body = request.get_json()
             # user = get_jwt_identity()
