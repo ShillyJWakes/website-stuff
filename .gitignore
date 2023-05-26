@@ -1,4 +1,4 @@
-/backend/venv/
+backend/venv/
 __pycache__
 .pyc
 backend/.env
@@ -9,4 +9,6 @@ backend/sisportal.service.example
 backend/.flaskenv
 backend/env.example
 *.example
-/frontend/node_modules/
+frontend/node_modules/
+backend/gunicorn_error.log
+backend/gunicorn.conf.py

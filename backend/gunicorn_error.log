@@ -1304,3 +1304,97 @@ WHERE pow.`status` = %(status_1)s]
 [2023-05-26 10:06:45 -0500] [7390] [INFO] Booting worker with pid: 7390
 [2023-05-26 10:06:45 -0500] [7391] [INFO] Booting worker with pid: 7391
 [2023-05-26 10:06:45 -0500] [7392] [INFO] Booting worker with pid: 7392
+[2023-05-26 12:03:46 -0500] [7387] [ERROR] Error handling request /api/users
+Traceback (most recent call last):
+  File "/var/www/website-stuff/backend/venv/lib/python3.10/site-packages/gunicorn/workers/sync.py", line 136, in handle
+    self.handle_request(listener, req, client, addr)
+  File "/var/www/website-stuff/backend/venv/lib/python3.10/site-packages/gunicorn/workers/sync.py", line 179, in handle_request
+    respiter = self.wsgi(environ, resp.start_response)
+  File "/var/www/website-stuff/backend/venv/lib/python3.10/site-packages/flask/app.py", line 2088, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/var/www/website-stuff/backend/venv/lib/python3.10/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.handle_exception(e)
+  File "/var/www/website-stuff/backend/venv/lib/python3.10/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/var/www/website-stuff/backend/venv/lib/python3.10/site-packages/flask_restful/__init__.py", line 271, in error_router
+    return original_handler(e)
+  File "/var/www/website-stuff/backend/venv/lib/python3.10/site-packages/flask/app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/var/www/website-stuff/backend/venv/lib/python3.10/site-packages/flask/app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/var/www/website-stuff/backend/venv/lib/python3.10/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/var/www/website-stuff/backend/venv/lib/python3.10/site-packages/flask_restful/__init__.py", line 271, in error_router
+    return original_handler(e)
+  File "/var/www/website-stuff/backend/venv/lib/python3.10/site-packages/flask/app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/var/www/website-stuff/backend/venv/lib/python3.10/site-packages/flask/app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/var/www/website-stuff/backend/venv/lib/python3.10/site-packages/flask_restful/__init__.py", line 467, in wrapper
+    resp = resource(*args, **kwargs)
+  File "/var/www/website-stuff/backend/venv/lib/python3.10/site-packages/flask/views.py", line 83, in view
+    return self.dispatch_request(*args, **kwargs)
+  File "/var/www/website-stuff/backend/venv/lib/python3.10/site-packages/flask_restful/__init__.py", line 582, in dispatch_request
+    resp = meth(*args, **kwargs)
+  File "/var/www/website-stuff/backend/venv/lib/python3.10/site-packages/flask_jwt_extended/view_decorators.py", line 127, in decorator
+    return current_app.ensure_sync(fn)(*args, **kwargs)
+  File "/var/www/website-stuff/backend/views/user.py", line 82, in post
+    raise e
+  File "/var/www/website-stuff/backend/views/user.py", line 60, in post
+    user = new_user_schema.load(body, session=db.session)
+  File "/var/www/website-stuff/backend/venv/lib/python3.10/site-packages/marshmallow_sqlalchemy/load_instance_mixin.py", line 96, in load
+    return super().load(data, **kwargs)
+  File "/var/www/website-stuff/backend/venv/lib/python3.10/site-packages/marshmallow/schema.py", line 719, in load
+    return self._do_load(
+  File "/var/www/website-stuff/backend/venv/lib/python3.10/site-packages/marshmallow/schema.py", line 901, in _do_load
+    raise exc
+marshmallow.exceptions.ValidationError: {'secondaryEmail': ['Unknown field.']}
+[2023-05-26 12:05:28 -0500] [7348] [INFO] Handling signal: term
+[2023-05-26 12:05:28 -0500] [7384] [INFO] Worker exiting (pid: 7384)
+[2023-05-26 12:05:28 -0500] [7386] [INFO] Worker exiting (pid: 7386)
+[2023-05-26 12:05:28 -0500] [7385] [INFO] Worker exiting (pid: 7385)
+[2023-05-26 12:05:28 -0500] [7387] [INFO] Worker exiting (pid: 7387)
+[2023-05-26 12:05:28 -0500] [7388] [INFO] Worker exiting (pid: 7388)
+[2023-05-26 12:05:28 -0500] [7391] [INFO] Worker exiting (pid: 7391)
+[2023-05-26 12:05:28 -0500] [7390] [INFO] Worker exiting (pid: 7390)
+[2023-05-26 12:05:28 -0500] [7389] [INFO] Worker exiting (pid: 7389)
+[2023-05-26 12:05:28 -0500] [7392] [INFO] Worker exiting (pid: 7392)
+[2023-05-26 12:05:29 -0500] [7348] [INFO] Shutting down: Master
+[2023-05-26 12:05:29 -0500] [9759] [INFO] Starting gunicorn 20.1.0
+[2023-05-26 12:05:29 -0500] [9759] [INFO] Listening at: http://192.168.1.203:5000 (9759)
+[2023-05-26 12:05:29 -0500] [9759] [INFO] Using worker: sync
+[2023-05-26 12:05:29 -0500] [9762] [INFO] Booting worker with pid: 9762
+[2023-05-26 12:05:29 -0500] [9763] [INFO] Booting worker with pid: 9763
+[2023-05-26 12:05:29 -0500] [9764] [INFO] Booting worker with pid: 9764
+[2023-05-26 12:05:29 -0500] [9765] [INFO] Booting worker with pid: 9765
+[2023-05-26 12:05:29 -0500] [9766] [INFO] Booting worker with pid: 9766
+[2023-05-26 12:05:29 -0500] [9767] [INFO] Booting worker with pid: 9767
+[2023-05-26 12:05:29 -0500] [9768] [INFO] Booting worker with pid: 9768
+[2023-05-26 12:05:29 -0500] [9769] [INFO] Booting worker with pid: 9769
+[2023-05-26 12:05:29 -0500] [9770] [INFO] Booting worker with pid: 9770
+[2023-05-26 12:27:01 -0500] [9762] [INFO] Worker exiting (pid: 9762)
+[2023-05-26 12:27:01 -0500] [9767] [INFO] Worker exiting (pid: 9767)
+[2023-05-26 12:27:01 -0500] [9766] [INFO] Worker exiting (pid: 9766)
+[2023-05-26 12:27:01 -0500] [9768] [INFO] Worker exiting (pid: 9768)
+[2023-05-26 12:27:01 -0500] [9769] [INFO] Worker exiting (pid: 9769)
+[2023-05-26 12:27:01 -0500] [9759] [INFO] Handling signal: term
+[2023-05-26 12:27:01 -0500] [9763] [INFO] Worker exiting (pid: 9763)
+[2023-05-26 12:27:01 -0500] [9770] [INFO] Worker exiting (pid: 9770)
+[2023-05-26 12:27:01 -0500] [9764] [INFO] Worker exiting (pid: 9764)
+[2023-05-26 12:27:01 -0500] [9765] [INFO] Worker exiting (pid: 9765)
+[2023-05-26 12:27:01 -0500] [9759] [WARNING] Worker with pid 9769 was terminated due to signal 15
+[2023-05-26 12:27:01 -0500] [9759] [WARNING] Worker with pid 9767 was terminated due to signal 15
+[2023-05-26 12:27:01 -0500] [9759] [WARNING] Worker with pid 9768 was terminated due to signal 15
+[2023-05-26 12:27:02 -0500] [9759] [INFO] Shutting down: Master
+[2023-05-26 12:27:02 -0500] [10328] [INFO] Starting gunicorn 20.1.0
+[2023-05-26 12:27:02 -0500] [10328] [INFO] Listening at: http://192.168.1.203:5000 (10328)
+[2023-05-26 12:27:02 -0500] [10328] [INFO] Using worker: sync
+[2023-05-26 12:27:02 -0500] [10340] [INFO] Booting worker with pid: 10340
+[2023-05-26 12:27:02 -0500] [10341] [INFO] Booting worker with pid: 10341
+[2023-05-26 12:27:02 -0500] [10342] [INFO] Booting worker with pid: 10342
+[2023-05-26 12:27:02 -0500] [10343] [INFO] Booting worker with pid: 10343
+[2023-05-26 12:27:02 -0500] [10344] [INFO] Booting worker with pid: 10344
+[2023-05-26 12:27:02 -0500] [10345] [INFO] Booting worker with pid: 10345
+[2023-05-26 12:27:03 -0500] [10346] [INFO] Booting worker with pid: 10346
+[2023-05-26 12:27:03 -0500] [10347] [INFO] Booting worker with pid: 10347
+[2023-05-26 12:27:03 -0500] [10348] [INFO] Booting worker with pid: 10348

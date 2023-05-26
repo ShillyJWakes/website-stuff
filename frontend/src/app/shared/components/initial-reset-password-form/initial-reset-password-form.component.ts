@@ -35,7 +35,7 @@ export class InitialResetPasswordFormComponent implements OnInit {
   countryInvalid: Boolean | undefined;
   address2Invalid: Boolean | undefined;
   phoneNumberInvalid: Boolean | undefined;
-  secondaryEmailInvalid: Boolean | undefined;
+  secondary_emailInvalid: Boolean | undefined;
   linkedinInvalid: Boolean | undefined;
 
   firstNameInvalid: Boolean | undefined;
@@ -99,8 +99,8 @@ export class InitialResetPasswordFormComponent implements OnInit {
         [Validators.required, Validators.pattern('^[a-zA-Z]+$')],
       ],
       //must be in email format
-      secondaryEmailFormControl: [
-        this.prefill?.secondaryEmail,
+      secondary_emailFormControl: [
+        this.prefill?.secondary_email,
         [Validators.required,
         Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')],
       ],
@@ -193,9 +193,9 @@ export class InitialResetPasswordFormComponent implements OnInit {
       ? (this.phoneNumberInvalid = false)
       : (this.phoneNumberInvalid = true);
     
-    this.newPasswordForm.value.secondaryEmailFormControl
-      ? (this.secondaryEmailInvalid = false)
-      : (this.secondaryEmailInvalid = true);
+    this.newPasswordForm.value.secondary_emailFormControl
+      ? (this.secondary_emailInvalid = false)
+      : (this.secondary_emailInvalid = true);
 
     this.newPasswordForm.value.linkedinFormControl
       ? (this.linkedinInvalid = false)
@@ -221,7 +221,7 @@ export class InitialResetPasswordFormComponent implements OnInit {
         this.zipCodeInvalid ||
         this.countryInvalid ||
         this.phoneNumberInvalid ||
-        this.secondaryEmailInvalid
+        this.secondary_emailInvalid
       ) {
         this.readyToSubmit = false;
         this.sending = false;
@@ -279,7 +279,7 @@ export class InitialResetPasswordFormComponent implements OnInit {
           zip_code: this.newPasswordForm.value.zipCodeFormControl,
           state: this.newPasswordForm.value.stateFormControl,
           telephone: this.newPasswordForm.value.phoneNumberFormControl,
-          secondaryEmail: this.newPasswordForm.value.secondaryEmailFormControl,
+          secondary_email: this.newPasswordForm.value.secondary_emailFormControl,
           linkedin: this.newPasswordForm.value.linkedinFormControl
         };
         //sending the request to update the user with the information from the form

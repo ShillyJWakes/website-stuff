@@ -123,7 +123,33 @@
           <label for="email">Email</label>
         </div>
       </div>
+    <div>
+      <div class="col-8">
+          <div
+            *ngIf="
+              (newUserForm.get('secondary_emailFormControl')?.dirty &&
+                !newUserForm.get('secondary_emailFormControl')?.valid) ||
+              secondary_emailEmpty === true
+            "
+            class="invalid-tooltip"
+          >
+            Please enter a valid email address.
+          </div>
+          <input
+            class="form-control"
+            type="email"
+            id="secondary_email"
+            formControlName="secondary_emailFormControl"
+            name="secondary_email"
+            required
+            [value]="prefill?.secondary_email"
+            (change)="secondary_emailEmpty = false"
+          />
+          <label for="secondary_email">Secondary Email</label>
+      </div>
+      </div>
     </div>
+    <hr style="height:2px;border-width:0;color:gray;background-color:gray">
     <div class="form-group col-12 p-0 m-0 d-flex" *ngIf="create === true">
       <div class="col-8">
         <input
@@ -150,7 +176,7 @@
     </div>
     <div class="form-group col-12 p-0 m-0" *ngIf="create === true">
       <div style="display: flex">
-        <div class="col-6">
+        <div class="col-7">
           <input
             class="form-control"
             type="text"
@@ -171,7 +197,7 @@
           </div>
         </div>
 
-        <div class="col-6">
+        <div class="col-5">
           <input
             class="form-control"
             type="text"
