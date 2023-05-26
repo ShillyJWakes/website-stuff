@@ -75,6 +75,17 @@ export class TermTableComponent implements OnInit, OnDestroy {
           component: DateEditorComponent,
         },
       },
+      firstDayClass: {
+        title: 'Classes Start',
+        editable: true,
+        valuePrepareFunction: (date: any) => {
+          return dayjs(date).format('MMM D, YYYY');
+        },
+        editor: {
+          type: 'custom',
+          component: DateEditorComponent,
+        },
+      },
       endDate: {
         title: 'End Date',
         editable: true,

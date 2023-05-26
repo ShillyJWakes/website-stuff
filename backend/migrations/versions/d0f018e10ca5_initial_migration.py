@@ -116,7 +116,7 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('POW',
+    op.create_table('pow',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('student_id', sa.Integer(), nullable=False),
     sa.Column('creation_date', sa.DateTime(), nullable=True),
@@ -162,7 +162,7 @@ def upgrade():
     sa.Column('pow_id', sa.Integer(), nullable=False),
     sa.Column('message', sa.Text(), nullable=False),
     sa.Column('send_time', sa.DateTime(), nullable=True),
-    sa.ForeignKeyConstraint(['pow_id'], ['POW.id'], ),
+    sa.ForeignKeyConstraint(['pow_id'], ['pow.id'], ),
     sa.ForeignKeyConstraint(['sender_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
@@ -173,7 +173,7 @@ def upgrade():
     sa.Column('term_id', sa.Integer(), nullable=True),
     sa.Column('course_type', sa.String(length=80), nullable=True),
     sa.ForeignKeyConstraint(['course_id'], ['course.id'], ),
-    sa.ForeignKeyConstraint(['pow_id'], ['POW.id'], ),
+    sa.ForeignKeyConstraint(['pow_id'], ['pow.id'], ),
     sa.ForeignKeyConstraint(['term_id'], ['term.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
@@ -186,7 +186,7 @@ def downgrade():
     op.drop_table('message')
     op.drop_table('student_adviser')
     op.drop_table('completed_course')
-    op.drop_table('POW')
+    op.drop_table('pow')
     op.drop_table('user_role')
     op.drop_table('term_course')
     op.drop_table('specialization_course')

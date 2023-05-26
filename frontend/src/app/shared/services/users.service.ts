@@ -89,6 +89,8 @@ export class UsersService {
     zip_code: string,
     state: string,
     email: string,
+    secondary_email: string,
+    linkedin: string,
     telephone: string,
     roles: any[],
     url: string
@@ -106,6 +108,8 @@ export class UsersService {
       zip_code: zip_code,
       state: state,
       email: email,
+      secondary_email: secondary_email,
+      linkedin: linkedin,
       telephone: telephone,
       roles: roles,
       url: url,

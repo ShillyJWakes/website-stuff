@@ -75,7 +75,7 @@ class User(db.Model):
     last_name = db.Column(db.String(80))
     access_id = db.Column(db.String(6), unique=True, nullable=False)
     email = db.Column(EmailType, unique=True, nullable=False)
-    secondary_email = db.Column(EmailType, uniue=False, nullable=True)
+    secondary_email = db.Column(EmailType, unique=True, nullable=False)
     linkedin = db.Column(URLType, unique=False, nullable=True)
     password = db.Column(db.String(80), nullable=False)
     address = db.Column(db.String(120), nullable=True)

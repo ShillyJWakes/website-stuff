@@ -8,6 +8,8 @@ export class UserModel {
   middleIn: string | undefined;
   lastName: string | undefined;
   email: string | undefined;
+  secondary_email: string | undefined;
+  linkedin: string | undefined;
   city: string | undefined;
   state: string | undefined;
   zipCode: string | undefined;
@@ -25,6 +27,8 @@ export class UserModel {
     this.lastName = userModel?.last_name;
     this.telephone = userModel?.telephone;
     this.email = userModel?.email;
+    this.secondary_email = userModel?.secondayEmail;
+    this.linkedin = userModel?.linkedin;
     this.state = userModel?.state;
     this.zipCode = userModel?.zip_code;
     this.country = userModel?.country;

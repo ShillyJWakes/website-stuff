@@ -54,7 +54,8 @@ mysql+pymysql://sisportal:$password@localhost/sis_portal?charset=utf8mb4
 ### Build Frontend
 1. To build the frontend, install the latest Node and NPM on your local machine.\
 This is specific to your operating system.\
-[Node](https://nodejs.org/en/)
+[Node](https://nodejs.org/en/) \
+*Note:* Some of the angular dependencies do not work with more recent versions of Node. Node version 14.15.0 was used to build frontend.
 
 2. Clone the repo into a local directory and then navigate to the sis-portal/frontend directory.
 

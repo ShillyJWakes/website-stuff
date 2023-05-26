@@ -6,6 +6,7 @@ export class TermModel {
   active: boolean = false;
   termCourses: TermCourseModel[] | undefined;
   startDate: Date | undefined;
+  firstDayClass: Date | undefined;
   endDate: Date | undefined;
 
   constructor(termModel: { [key: string]: any } | undefined) {
@@ -17,6 +18,7 @@ export class TermModel {
         new TermCourseModel({ ...course })
     );
     this.startDate = new Date(termModel?.term_start);
+    this.firstDayClass = new Date(termModel?.firstDayClass);
     this.endDate = new Date(termModel?.term_end);
   }
 }
