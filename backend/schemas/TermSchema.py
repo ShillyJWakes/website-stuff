@@ -20,7 +20,7 @@ class TermSchema(ma.SQLAlchemyAutoSchema):
     term_courses = ma.Nested(TermCourseSchema, many=True)
 
     class Meta:
-        fields = ("id", "term_name", "active", "term_courses", "term_start", "term_end")
+        fields = ("id", "term_name", "active", "term_courses", "term_start", "first_day_class", "term_end")
         model = Term
         include_relationships = True
         load_instance = True

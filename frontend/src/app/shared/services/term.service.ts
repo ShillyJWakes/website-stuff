@@ -106,6 +106,7 @@ export class TermService {
       term_name: term.termName,
       active: term.active,
       term_start: dayjs(term.startDate).toDate(),
+      first_day_class: dayjs(term.firstDayClass).toDate(),
       term_end: dayjs(term.endDate).toDate(),
       term_courses: term.termCourses?.map((termCourse) => ({
         course_id: termCourse.course?.id,
@@ -119,6 +120,7 @@ export class TermService {
       term_name: term.termName,
       active: term.active,
       term_start: dayjs(term.startDate).toDate(),
+      first_day_class: dayjs(term.firstDayClass).toDate(),
       term_end: dayjs(term.endDate).toDate(),
     };
     return this.http.patch<any>(

@@ -34,6 +34,7 @@ export class UserFormComponent implements OnChanges {
   states: { name: string; abbreviation: string }[] = stateJson;
 
   emailEmpty: Boolean | undefined;
+  secondaryEmailEmpty: Boolean | undefined;
   accessIdEmpty: Boolean | undefined;
   firstNameEmpty: Boolean | undefined;
   lastNameEmpty: Boolean | undefined;
@@ -85,6 +86,14 @@ export class UserFormComponent implements OnChanges {
           Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
         ],
       ],
+      secondaryEmailFormControl: [
+        this.prefill?.secondaryEmail,
+        [
+          //must be in the form of an email
+          Validators.required,
+          Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
+        ],
+      ],
       accessIDFormControl: [
         //must be in the form of an actual access ID
         this.prefill?.accessID,
@@ -95,6 +104,7 @@ export class UserFormComponent implements OnChanges {
         '',
         [Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')],
       ],
+      linkedinFormControl: [this.prefill?.linkedin],
       addressFormControl: [this.prefill?.address],
       address2FormControl: [this.prefill?.address],
       cityFormControl: ['', [Validators.pattern('[a-zA-Z ]*')]],
@@ -137,6 +147,10 @@ export class UserFormComponent implements OnChanges {
       this.newUserForm.get('emailFormControl')?.valid
         ? (this.emailEmpty = false)
         : (this.emailEmpty = true);
+      this.newUserForm.value.secondaryEmailFormControl &&
+      this.newUserForm.get('secondaryEmailFormControl')?.valid
+        ? (this.secondaryEmailEmpty = false)
+        : (this.emailEmpty = true);
       this.newUserForm.value.accessIDFormControl &&
       this.newUserForm.get('accessIDFormControl')?.valid
         ? (this.accessIdEmpty = false)
@@ -153,6 +167,7 @@ export class UserFormComponent implements OnChanges {
       //if these form elements are invalid, dont send form
       if (
         this.emailEmpty ||
+        this.secondaryEmailEmpty ||
         this.accessIdEmpty ||
         this.firstNameEmpty ||
         this.lastNameEmpty ||
@@ -194,6 +209,8 @@ export class UserFormComponent implements OnChanges {
             this.newUserForm.value.zipCodeFormControl,
             this.newUserForm.value.stateFormControl,
             this.newUserForm.value.emailFormControl,
+            this.newUserForm.value.secondaryEmailFormControl,
+            this.newUserForm.value.linkedinFormControl,
             this.newUserForm.value.phoneNumberFormControl,
             this.roles,
             window.location.origin + '/login'
@@ -249,6 +266,9 @@ export class UserFormComponent implements OnChanges {
             this.newUserForm.value.emailFormControl
               ? (this.emailEmpty = false)
               : (this.emailEmpty = true);
+            this.newUserForm.value.secondaryEmailFormControl
+              ? (this.secondaryEmailEmpty = false)
+              : (this.secondaryEmailEmpty = true);
             this.newUserForm.value.accessIDFormControl
               ? (this.accessIdEmpty = false)
               : (this.accessIdEmpty = true);

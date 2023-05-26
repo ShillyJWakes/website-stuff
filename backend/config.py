@@ -41,3 +41,4 @@ MAIL_USE_SSL = True if environ.get('MAIL_USE_SSL') == 'True' else False
 
 CORS_ORIGINS = environ.get('CORS_ORIGINS')
 CORS_RESOURCES = environ.get('CORS_RESOURCES')
+CORS_ALLOW_HEADERS = environ.get('CORS_ALLOW_HEADERS')

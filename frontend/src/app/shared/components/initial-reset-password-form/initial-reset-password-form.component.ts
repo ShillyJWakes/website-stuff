@@ -35,6 +35,8 @@ export class InitialResetPasswordFormComponent implements OnInit {
   countryInvalid: Boolean | undefined;
   address2Invalid: Boolean | undefined;
   phoneNumberInvalid: Boolean | undefined;
+  secondaryEmailInvalid: Boolean | undefined;
+  linkedinInvalid: Boolean | undefined;
 
   firstNameInvalid: Boolean | undefined;
   lastNameInvalid: Boolean | undefined;
@@ -95,6 +97,17 @@ export class InitialResetPasswordFormComponent implements OnInit {
       lastNameFormControl: [
         this.prefill?.lastName,
         [Validators.required, Validators.pattern('^[a-zA-Z]+$')],
+      ],
+      //must be in email format
+      secondaryEmailFormControl: [
+        this.prefill?.secondaryEmail,
+        [Validators.required,
+        Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')],
+      ],
+      //must be valid URL format
+      linkedinFormControl: [
+        this.prefill?.linkedin,
+        [Validators.pattern('^(ftp|http|https):\/\/[^ "]+$')]
       ],
       passwordFormControl: ['', [Validators.required]],
       confirmPasswordFormControl: ['', [Validators.required]],
@@ -179,6 +192,14 @@ export class InitialResetPasswordFormComponent implements OnInit {
     this.newPasswordForm.value.phoneNumberFormControl
       ? (this.phoneNumberInvalid = false)
       : (this.phoneNumberInvalid = true);
+    
+    this.newPasswordForm.value.secondaryEmailFormControl
+      ? (this.secondaryEmailInvalid = false)
+      : (this.secondaryEmailInvalid = true);
+
+    this.newPasswordForm.value.linkedinFormControl
+      ? (this.linkedinInvalid = false)
+      : (this.linkedinInvalid = true);
 
     //if any of these values are invalid, then do not submit the form
     if (
@@ -199,7 +220,8 @@ export class InitialResetPasswordFormComponent implements OnInit {
         this.stateInvalid ||
         this.zipCodeInvalid ||
         this.countryInvalid ||
-        this.phoneNumberInvalid
+        this.phoneNumberInvalid ||
+        this.secondaryEmailInvalid
       ) {
         this.readyToSubmit = false;
         this.sending = false;
@@ -257,6 +279,8 @@ export class InitialResetPasswordFormComponent implements OnInit {
           zip_code: this.newPasswordForm.value.zipCodeFormControl,
           state: this.newPasswordForm.value.stateFormControl,
           telephone: this.newPasswordForm.value.phoneNumberFormControl,
+          secondaryEmail: this.newPasswordForm.value.secondaryEmailFormControl,
+          linkedin: this.newPasswordForm.value.linkedinFormControl
         };
         //sending the request to update the user with the information from the form
         this.userService.updateUser(userInfo, this.currentUser?.id).subscribe(

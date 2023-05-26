@@ -1,0 +1,13 @@
+[Unit]
+Description=Gunicorn instance to serve sis portal
+After=network.target
+
+[Service]
+User=sis-portal
+Group=www-data
+WorkingDirectory=/var/www/website-stuff/backend
+Environment="PATH=/var/www/website-stuff/backend/venv/bin"
+ExecStart=/var/www/website-stuff/backend/venv/bin/gunicorn --workers 3 --bind unix:sisportal.sock -m 007 wsgi:app
+
+[Install]
+WantedBy=multi-user.target
