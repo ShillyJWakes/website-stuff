@@ -1398,3 +1398,45 @@ marshmallow.exceptions.ValidationError: {'secondaryEmail': ['Unknown field.']}
 [2023-05-26 12:27:03 -0500] [10346] [INFO] Booting worker with pid: 10346
 [2023-05-26 12:27:03 -0500] [10347] [INFO] Booting worker with pid: 10347
 [2023-05-26 12:27:03 -0500] [10348] [INFO] Booting worker with pid: 10348
+[2023-05-26 13:00:58 -0500] [10342] [ERROR] Error handling request /api/auth/login
+Traceback (most recent call last):
+  File "/var/www/website-stuff/backend/views/auth.py", line 45, in post
+    raise UnauthorizedError
+helpers.Error.UnauthorizedError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/var/www/website-stuff/backend/venv/lib/python3.10/site-packages/gunicorn/workers/sync.py", line 136, in handle
+    self.handle_request(listener, req, client, addr)
+  File "/var/www/website-stuff/backend/venv/lib/python3.10/site-packages/gunicorn/workers/sync.py", line 179, in handle_request
+    respiter = self.wsgi(environ, resp.start_response)
+  File "/var/www/website-stuff/backend/venv/lib/python3.10/site-packages/flask/app.py", line 2088, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/var/www/website-stuff/backend/venv/lib/python3.10/site-packages/flask/app.py", line 2073, in wsgi_app
+    response = self.handle_exception(e)
+  File "/var/www/website-stuff/backend/venv/lib/python3.10/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/var/www/website-stuff/backend/venv/lib/python3.10/site-packages/flask_restful/__init__.py", line 271, in error_router
+    return original_handler(e)
+  File "/var/www/website-stuff/backend/venv/lib/python3.10/site-packages/flask/app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/var/www/website-stuff/backend/venv/lib/python3.10/site-packages/flask/app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/var/www/website-stuff/backend/venv/lib/python3.10/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/var/www/website-stuff/backend/venv/lib/python3.10/site-packages/flask_restful/__init__.py", line 271, in error_router
+    return original_handler(e)
+  File "/var/www/website-stuff/backend/venv/lib/python3.10/site-packages/flask/app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/var/www/website-stuff/backend/venv/lib/python3.10/site-packages/flask/app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/var/www/website-stuff/backend/venv/lib/python3.10/site-packages/flask_restful/__init__.py", line 467, in wrapper
+    resp = resource(*args, **kwargs)
+  File "/var/www/website-stuff/backend/venv/lib/python3.10/site-packages/flask/views.py", line 83, in view
+    return self.dispatch_request(*args, **kwargs)
+  File "/var/www/website-stuff/backend/venv/lib/python3.10/site-packages/flask_restful/__init__.py", line 582, in dispatch_request
+    resp = meth(*args, **kwargs)
+  File "/var/www/website-stuff/backend/views/auth.py", line 50, in post
+    raise UnauthorizedError
+helpers.Error.UnauthorizedError
