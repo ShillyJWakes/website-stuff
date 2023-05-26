@@ -22,6 +22,10 @@
               [model]="'user'"
             ></app-fancy-form-input>
           </div>
+          <div class="col-6">
+            <span class="font-weight-bold">{{ loggedUser?.email }}</span>
+            <div class="info-label">Email</div>
+          </div>
         </div>
         <div class="row info-section mt-4">
           <div class="col-6">
@@ -31,8 +35,8 @@
             ></app-fancy-form-input>
           </div>
           <div class="col-6">
-            <span class="font-weight-bold">{{ loggedUser?.email }}</span>
-            <div class="info-label">Email</div>
+            <span class="font-weight-bold">{{ loggedUser?.secondary_email }}</span>
+            <div class="info-label">Secondary Email</div>
           </div>
         </div>
       </div>

@@ -11,8 +11,21 @@ from models.db import db
 
 
 class GradesApi(Resource):
+    """Class for providing letter grades (A, A-, ..., F) in web app tables.
+
+    Args:
+        Resource : Convert to API resource (endpoint - /api/grades)
+    """
     @jwt_required()
     def get(self):
+        """Retreiving contents of grade table in database.
+
+        Raises:
+            e: 500, internal server error.
+
+        Returns:
+            JSON: JSON of all contents of grade table for use in web app tables.
+        """
         try:
             get_active = request.args.get('active', default='*', type=str)
             active_grades = True if get_active == "true" else False
@@ -25,6 +38,14 @@ class GradesApi(Resource):
 
     @jwt_required()
     def post(self):
+        """Insert new letter grade into grade table in database.
+
+        Raises:
+            e: 500, internal server error
+
+        Returns:
+            JSON: JSON of new grade, updates web app tables/options. 200 response.
+        """
         try:
             body = request.get_json()
             grade = Grade(**body)
@@ -36,8 +57,24 @@ class GradesApi(Resource):
 
 
 class GradeApi(Resource):
+    """Class for interacting with a singular grade from the grade table.
+
+    Args:
+        Resource : Convert to API resource (endpoint - /api/grade/<grade_id>)
+    """
     @jwt_required()
     def get(self, grade_id):
+        """_summary_
+
+        Args:
+            grade_id (_type_): _description_
+
+        Raises:
+            e: _description_
+
+        Returns:
+            _type_: _description_
+        """
         try:
             grade = Grade.query.get_or_404(grade_id)
             grade_schema = GradeSchema()
