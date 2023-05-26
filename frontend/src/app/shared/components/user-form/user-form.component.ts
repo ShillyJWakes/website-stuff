@@ -150,7 +150,7 @@ export class UserFormComponent implements OnChanges {
       this.newUserForm.value.secondary_emailFormControl &&
       this.newUserForm.get('secondary_emailFormControl')?.valid
         ? (this.secondary_emailEmpty = false)
-        : (this.emailEmpty = true);
+        : (this.secondary_emailEmpty = true);
       this.newUserForm.value.accessIDFormControl &&
       this.newUserForm.get('accessIDFormControl')?.valid
         ? (this.accessIdEmpty = false)

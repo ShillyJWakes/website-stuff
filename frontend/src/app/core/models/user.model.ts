@@ -27,7 +27,7 @@ export class UserModel {
     this.lastName = userModel?.last_name;
     this.telephone = userModel?.telephone;
     this.email = userModel?.email;
-    this.secondary_email = userModel?.secondayEmail;
+    this.secondary_email = userModel?.secondary_email;
     this.linkedin = userModel?.linkedin;
     this.state = userModel?.state;
     this.zipCode = userModel?.zip_code;
