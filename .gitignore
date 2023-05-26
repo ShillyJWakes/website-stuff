@@ -12,5 +12,3 @@ backend/.flaskenv
 backend/env.example
 *.example
 frontend/node_modules/
-backend/gunicorn_error.log
-backend/gunicorn.conf.py
