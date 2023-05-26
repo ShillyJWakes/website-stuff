@@ -1,6 +1,8 @@
 backend/venv/
 __pycache__
 .pyc
+backend/gunicorn_error.log
+backend/gunicorn.conf.py
 backend/.env
 backend/.flaskenv
 backend/env.example
@@ -10,5 +12,5 @@ backend/.flaskenv
 backend/env.example
 *.example
 frontend/node_modules/
-backend/gunicorn_error.log/
-backend/gunicorn.conf.py/
+backend/gunicorn_error.log
+backend/gunicorn.conf.py
