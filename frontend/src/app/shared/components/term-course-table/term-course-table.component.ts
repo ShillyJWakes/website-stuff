@@ -57,9 +57,10 @@ export class TermCourseTableComponent implements OnInit {
       } else {
         this.hideTable = true;
       }
+      //lock term based on first day of class -- Dennis
       if (
         term.active !== undefined &&
-        !dayjs(term.startDate).isBefore(dayjs())
+        !dayjs(term.firstDayClass).isBefore(dayjs())
       ) {
         this.hideAddCourses = false;
       } else {

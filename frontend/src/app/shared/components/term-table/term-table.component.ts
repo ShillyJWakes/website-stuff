@@ -130,6 +130,7 @@ export class TermTableComponent implements OnInit, OnDestroy {
         term_name: event.newData.termName,
         active: event.newData.active,
         term_start: event.newData.startDate,
+        first_day_class: event.newData.firstDayClass,
         term_end: event.newData.endDate,
       })
     );

@@ -18,7 +18,7 @@ export class TermModel {
         new TermCourseModel({ ...course })
     );
     this.startDate = new Date(termModel?.term_start);
-    this.firstDayClass = new Date(termModel?.firstDayClass);
+    this.firstDayClass = new Date(termModel?.first_day_class);
     this.endDate = new Date(termModel?.term_end);
   }
 }
