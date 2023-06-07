@@ -13,6 +13,7 @@ import { ToastMessageService } from '../../services/toast-message.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationToastService } from '../../services/confirmation-toast.service';
+import mscodeJson from '../../../../assets/ms_code.json'
 
 @Component({
   selector: 'app-course-form',
@@ -24,6 +25,7 @@ export class CourseFormComponent implements OnChanges, OnInit {
   @Input() create = true;
   @Input() prefill: CourseModel | undefined;
   @Input() role: string = 'admin';
+  msCodes: { name: string; code: number }[] = mscodeJson;
   @Output() formSubmitted: EventEmitter<boolean> = new EventEmitter();
   newCourseForm: FormGroup = this._formBuilder.group({});
   openCoRequisiteModal: boolean = false;
@@ -94,6 +96,10 @@ export class CourseFormComponent implements OnChanges, OnInit {
         this.prefill?.numberOfCredits,
         [Validators.required],
       ],
+      masterScheduleFormControl: [
+        this.prefill?.masterScheduleCode,
+        Validators.pattern('^[0-9]*$'),
+      ],
       descriptionFormControl: [this.prefill?.courseDescription],
       validationFormControl: [this.prefill?.active],
     });
@@ -121,7 +127,8 @@ export class CourseFormComponent implements OnChanges, OnInit {
                 this.newCourseForm.value.departmentFormControl,
                 this.newCourseForm.value.validationFormControl,
                 this.coReqs! || [],
-                this.preReqs! || []
+                this.preReqs! || [],
+                this.newCourseForm.value.masterScheduleFormControl
               )
               .subscribe(
                 () => {
@@ -160,6 +167,7 @@ export class CourseFormComponent implements OnChanges, OnInit {
                   course_number: this.newCourseForm.value.courseNumFormControl,
                   department: this.newCourseForm.value.departmentFormControl,
                   active: this.newCourseForm.value.validationFormControl,
+                  ms_code: this.newCourseForm.value.masterScheduleFormControl,
                 }),
                 this.coReqs,
                 this.preReqs
@@ -220,6 +228,7 @@ export class CourseFormComponent implements OnChanges, OnInit {
             course_description: this.newCourseForm.value.descriptionFormControl,
             course_number: this.newCourseForm.value.courseNumFormControl,
             department: this.newCourseForm.value.departmentFormControl,
+            ms_code: this.newCourseForm.value.masterScheduleFormControl,
             active: approved,
           })
         )

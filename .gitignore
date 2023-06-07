@@ -12,3 +12,4 @@ backend/.flaskenv
 backend/env.example
 *.example
 frontend/node_modules/
+backend/migrations/versions/71380ee828cd_add_master_schedule_column.py

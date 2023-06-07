@@ -19,7 +19,7 @@ class CourseSchema(ma.SQLAlchemyAutoSchema):
 
     class Meta:
         fields = ("id", "course_profile", "number_of_credits", "course_description",
-                  "course_number", "department", "active", "requisite_parent")
+                  "course_number", "department", "active", "requisite_parent", "ms_code")
         model = Course
         load_instance = True
 

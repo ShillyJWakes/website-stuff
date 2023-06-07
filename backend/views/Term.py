@@ -8,6 +8,7 @@ from sqlalchemy import text
 from helpers.Filter import json_filter
 from models.TermModel import Term, TermCourse
 from models.UserModel import User, UserRole, StudentAdviser
+from models.CourseModel import Course
 from flask_restful import Resource
 
 from schemas.TermSchema import TermSchema, TermCourseSchema
@@ -82,12 +83,35 @@ class TermCourseApi(Resource):
                 db.session.delete(relationship)
                 db.session.commit()
 
+            
+            msCodes = []
+            for t in db.session.query(Term.term_name).filter(Term.id==term_id):
+                if 'Fall' in t[0]:
+                    msCodes = [1,4,5,7]
+                elif 'Winter' in t[0]:
+                    msCodes = [2,4,6,7]
+                elif 'Spring' in t[0] or 'Summer' in t[0]:
+                    msCodes= [3,5,6,7]
+            q = db.session.query(TermCourse).filter(TermCourse.term_id==term_id).all()
+            if len(q) == 0:
+                default_courses = db.session.query(Course.id).filter(Course.ms_code.in_(msCodes))
+                for course in default_courses:
+                    revised_schema = {'term_id': term_id,
+                                      'course_id': course.id}
+                    term_course_schema = TermCourseSchema(exclude=("course",))
+                    term_course = term_course_schema.load(revised_schema)
+                    db.session.add(term_course)
+                    db.session.commit()
             courses = request.get_json()
             for course in courses:
-                term_course_schema = TermCourseSchema(exclude=("course",))
-                term_course = term_course_schema.load(course)
-                db.session.add(term_course)
-                db.session.commit()
+                checking = db.session.query(TermCourse).filter(TermCourse.course_id == course['course_id'], TermCourse.term_id == term_id).all()
+                if len(checking) == 0:
+                    term_course_schema = TermCourseSchema(exclude=("course",))
+                    term_course = term_course_schema.load(course)
+                    db.session.add(term_course)
+                    db.session.commit()
+                else:
+                    pass
             return {}, 200
         except Exception as e:
             raise e

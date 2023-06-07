@@ -8,6 +8,7 @@ export class CourseModel {
   courseNumber: string | undefined;
   department: string | undefined;
   active: boolean | undefined;
+  masterScheduleCode: number | undefined;
   requisites: RequisiteModel[] | undefined;
 
   constructor(courseModel: { [key: string]: any } | undefined) {
@@ -18,6 +19,7 @@ export class CourseModel {
     this.courseNumber = courseModel?.course_number;
     this.department = courseModel?.department;
     this.active = courseModel?.active;
+    this.masterScheduleCode = courseModel?.ms_code;
     this.requisites = courseModel?.requisite_parent?.map(
       (course: { [key: string]: any } | undefined) =>
         new RequisiteModel({ ...course })

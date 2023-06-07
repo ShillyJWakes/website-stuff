@@ -81,7 +81,8 @@ export class CoursesService {
     dept: string,
     active: boolean,
     coReqs: any[],
-    preReqs: any[]
+    preReqs: any[],
+    masterScheduleCode: number
   ): Observable<any> {
     const courseObject = {
       course_profile: title,
@@ -100,6 +101,7 @@ export class CoursesService {
           child_course_id: req.id,
         }))! || []),
       ],
+      ms_code: masterScheduleCode,
     };
     return this.http.post<any>(`${environment.apiUrl}/courses`, courseObject);
   }
@@ -129,6 +131,7 @@ export class CoursesService {
           parent_course_id: course.id,
         })),
       ],
+      ms_code: course.masterScheduleCode,
     };
     return this.http.patch<any>(
       `${environment.apiUrl}/course/${course.id}`,

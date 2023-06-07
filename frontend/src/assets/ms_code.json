@@ -1,0 +1,30 @@
+[
+    {
+        "name": "Fall Only",
+        "code": 1
+    },
+    {
+        "name": "Winter Only",
+        "code": 2
+    },
+    {
+        "name": "Spring/Summer Only",
+        "code": 3
+    },
+    {
+        "name": "Fall and Winter",
+        "code": 4
+    },
+    {
+        "name": "Fall and Spring/Summer",
+        "code": 5
+    },
+    {
+        "name": "Winter and Spring/Summer",
+        "code": 6
+    },
+    {
+        "name": "All Semesters",
+        "code": 7
+    }
+]

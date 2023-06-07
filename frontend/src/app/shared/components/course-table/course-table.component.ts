@@ -157,7 +157,12 @@ export class CourseTableComponent implements OnInit, OnDestroy {
       numberOfCredits: {
         title: 'Credits',
         editable: true,
-        width: '70px',
+        width: '50px',
+      },
+      masterScheduleCode: {
+        title: 'Semesters',
+        editable: true,
+        width: '50px',
       },
       ...(this.editable
         ? {

@@ -73,6 +73,7 @@ export class TermCourseTableComponent implements OnInit {
         department: course.course?.department,
         courseNumber: course.course?.courseNumber,
         courseProfile: course.course?.courseProfile,
+        msCode: course.course?.masterScheduleCode,
       }));
       //set term courses as preselected for course table
       this.preSelected = this.courses?.map((course: { courseId: any }) => ({
