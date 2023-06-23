@@ -64,16 +64,16 @@ class GradeApi(Resource):
     """
     @jwt_required()
     def get(self, grade_id):
-        """_summary_
+        """Get grades form database and format insert them into the schema for the app.
 
         Args:
-            grade_id (_type_): _description_
+            grade_id (int): The id in the grade table
 
         Raises:
-            e: _description_
+            e: 500, internal server error
 
         Returns:
-            _type_: _description_
+            JSON: formatted grade info, 200 response code
         """
         try:
             grade = Grade.query.get_or_404(grade_id)
@@ -84,6 +84,17 @@ class GradeApi(Resource):
 
     @jwt_required()
     def delete(self, grade_id):
+        """Remove a grade from the database
+
+        Args:
+            grade_id (int): The id in the grade table
+
+        Raises:
+            e: 500, Internal server error
+
+        Returns:
+            JSON, 200: Empty JSON along with 200 response code
+        """
         try:
             grade = Grade.query.get_or_404(grade_id)
             db.session.delete(grade)
@@ -94,6 +105,17 @@ class GradeApi(Resource):
 
     @jwt_required()
     def patch(self, grade_id):
+        """Editing a grade within the grade table.
+
+        Args:
+            grade_id (int): The id in the grade table
+
+        Raises:
+            e: 500, internal server error
+
+        Returns:
+            JSON: formatted information for the grade, 200 response code
+        """
         try:
             body = request.get_json()
             grade_schema = GradeSchema()
@@ -105,6 +127,11 @@ class GradeApi(Resource):
 
 
 class PowCompletedCoursesApi(Resource):
+    """_summary_
+
+    Args:
+        Resource (_type_): _description_
+    """
     def get(self, pow_id):
         # Join completed courses with of the student with the selected POW courses
         try:
