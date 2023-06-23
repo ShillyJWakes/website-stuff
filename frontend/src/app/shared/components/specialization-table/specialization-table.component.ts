@@ -67,7 +67,7 @@ export class SpecializationTableComponent implements OnInit {
   }
 
   getSpecializations() {
-    this.specializationService
+      this.specializationService
       .getAllSpecializations({
         filter: this.filter,
         order: '',
@@ -75,7 +75,7 @@ export class SpecializationTableComponent implements OnInit {
         perPage: 100,
       })
       .subscribe();
-  }
+    }
 
   closeModal(event: any) {
     this.openModal = !event;

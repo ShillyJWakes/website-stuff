@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://192.168.1.203:5000/api',
+  apiUrl: 'http://192.168.1.211:5000/api',
   csrfToken: 'yCrxjgbS5y88b8LTRWFq',
 };
 /*

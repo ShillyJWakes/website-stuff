@@ -184,6 +184,8 @@ class UploadUsersApi(Resource):
             existing_users = UserSchema(many=True, exclude=(
                     "id",
             		"email",
+                    "secondary_email",
+                    "linkedin",
                     "first_name",
                     "middle_name",
                     "last_name",
@@ -221,7 +223,7 @@ class UploadUsersApi(Resource):
         
                 body = {
                     "email": record + "@wayne.edu",
-                    "active":True,
+                    "active":False,
                     "access_id": record,
                     "password": str(initial_password)
                 }
@@ -236,7 +238,9 @@ class UploadUsersApi(Resource):
                     "country", 
                     "telephone", 
                     "roles", 
-                    "token", 
+                    "token",
+                    "secondary_email",
+                    "linkedin", 
                 ))
                 my_user = new_user.load(body)
 
@@ -250,7 +254,7 @@ class UploadUsersApi(Resource):
                 my_user.hash_password(body.get('password'))
 
                 db.session.add(my_user)
-                db.session.commit();
+                db.session.commit()
 
                 user = User.query.filter(User.access_id == record).all()
                 user_get_schema = UserSchema(exclude=("password",))
