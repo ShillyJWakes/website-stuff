@@ -22,8 +22,21 @@ from schemas.UserSchema import user_schema, users_schema
 
 
 class CoursesApi(Resource):
+    """Class for retrieving courses from database and inserting custom courses.
+
+    Args:
+        Resource : Convert to API resource (endpoint - /api/courses)
+    """
     @jwt_required()
     def get(self):
+        """Priamry function of the class, fetching all courses for course tables.
+
+        Raises:
+            e: 500 Internal Server Error
+
+        Returns:
+            JSON: JSON of all courses within filter, ordered accordingly. 200 response code
+        """
         try:
             get_filters = json.loads(request.args.get('filter', default='*', type=str))
             get_order = json.loads(request.args.get('order', default='*', type=str))
@@ -35,6 +48,14 @@ class CoursesApi(Resource):
 
     @jwt_required()
     def post(self):
+        """Function to handle creation of courses either by admin or student.
+
+        Raises:
+            e: 500 Internal Server Error
+
+        Returns:
+            Response Code: 200
+        """
         try:
             body = request.get_json()
             request_url = request.environ['HTTP_ORIGIN']
@@ -66,14 +87,39 @@ class CoursesApi(Resource):
 
 
 class CourseApi(Resource):
+    """Class to handle viewing, updating, and changing singular courses.
+
+    Args:
+        Resource : Convert to API Resource (endpoint - /api/course/<course_id>)
+    """
     @jwt_required()
     def get(self, course_id):
+        """Function to retrieve single course. Used when viewing a courses attributes in course table.
+
+        Args:
+            course_id (int): Unique ID for the course in the course table of the database
+
+        Returns:
+            JSON: JSON containing course information to be formatted and displayed. 200 response code
+        """
         course = Course.query.get_or_404(course_id)
         course_to_return = course_schema.dump(course)
         return course_to_return, 200
 
     @jwt_required()
     def put(self, course_id):
+        """Function for updating the attributes of a course
+
+        Args:
+            course_id (int): Unique ID for the course in the course table of the database
+
+        Raises:
+            e: 500 Internal Server Error
+
+        Returns:
+            course_id: Unique ID for the course in the course table of the database
+            Response Code: 200
+        """
 
         body = request.get_json()
         course_to_be_updated = Course.query.get_or_404(course_id)
@@ -94,6 +140,17 @@ class CourseApi(Resource):
 
     @jwt_required()
     def patch(self, course_id):
+        """Function for adding/updating pre- and co-requesites for a course
+
+        Args:
+            course_id (int): Unique ID for the course in the course table of the database
+
+        Raises:
+            e: 500 Internal Server Error
+
+        Returns:
+            JSON: JSON with the newly updated requisite information. 200 response code
+        """
         try:
             body = request.get_json()
             requisites = body["requisite_parent"]
@@ -114,6 +171,17 @@ class CourseApi(Resource):
 
     @jwt_required()
     def delete(self, course_id):
+        """Deleting a course from the database
+
+        Args:
+            course_id (int): Unique ID for the course in the course table of the database
+
+        Raises:
+            e: 500 Internal Server Error
+
+        Returns:
+            Response Code: 200
+        """
         course_to_delete = Course.query.get_or_404(course_id)
         try:
 

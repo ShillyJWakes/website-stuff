@@ -23,8 +23,17 @@ import datetime
 
 
 class MessagesApi(Resource):
+    """Retrieving messages associated with a POW
 
-    #Get all messages that are associated with the chosen POW
+    Args:
+        Resource : Convert to API resource (endpoint - /api/messages/<pow_id>)
+
+    Raises:
+        e: 500 Internal Server Error
+
+    Returns:
+        JSON: JSON containing the messages and associated metadata. 200 response code
+    """
     @jwt_required()
     def get(self, pow_id):
         try:
@@ -53,8 +62,18 @@ class MessagesApi(Resource):
             raise e
 
 
-#Endpoint that is responsible for creating new messages.
 class MessageApi(Resource):
+    """Class responsible for creating new messages.
+
+    Args:
+        Resource : Convert to API resource (endpoint - /api/message)
+
+    Raises:
+        e: 500 Internal Server Error
+
+    Returns:
+        JSON: Message ID, response code 200
+    """
     @jwt_required()
     def post(self):
         try:

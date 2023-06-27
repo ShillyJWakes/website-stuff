@@ -20,8 +20,21 @@ from schemas.SpecializationSchema import specialization_schema, specializations_
 
 #Returns and creates new specializations to the specialization table
 class SpecializationsApi(Resource):
+    """Retrieves and Creates new specializations
+
+    Args:
+        Resource : Convert to API resource (endpoint - /api/specializations)
+    """
     @jwt_required()
     def get(self):
+        """Retrieve all specializations from specializations table
+
+        Raises:
+            e: 500 Internal Server Error
+
+        Returns:
+            JSON: JSON containing specializations info, 200 response code
+        """
         try:
             get_filters = json.loads(request.args.get('filter', default='*', type=str))
             get_order = json.loads(request.args.get('order', default='*', type=str))
@@ -34,6 +47,14 @@ class SpecializationsApi(Resource):
 
     @jwt_required()
     def post(self):
+        """Function for creating new specialization and inserting into the specialization table
+
+        Raises:
+            e: 500 Internal Server Error
+
+        Returns:
+            JSON: specialization ID and 200 response code
+        """
         try:
             body = request.get_json()
             courses = body["courses"]
@@ -52,8 +73,24 @@ class SpecializationsApi(Resource):
 
 #Main endpoint that is used for creating, editing, and deleting specializations
 class SpecializationApi(Resource):
+    """Class for editing and deleting specializations
+
+    Args:
+        Resource: Convert to API resource (endpoint - /api/specialization/<specialization_id>)
+    """
     @jwt_required()
     def get(self, specialization_id):
+        """Retrieve data about a specific specialization
+
+        Args:
+            specialization_id (int): Unique ID associated with a specialization
+
+        Raises:
+            e: 500 Internal Server Error
+
+        Returns:
+            JSON: JSON containing info about the specialization
+        """
         try:
             specialization = Specialization.query.get_or_404(specialization_id)
             return specialization_schema.dump(specialization), 200
@@ -62,6 +99,17 @@ class SpecializationApi(Resource):
 
     @jwt_required()
     def put(self, specialization_id):
+        """Function for updating a specialization
+
+        Args:
+            specialization_id (int): unique ID associated with a specialization
+
+        Raises:
+            e: 500 Internal Server Error
+
+        Returns:
+            JSON: Specialization ID and 200 response code
+        """
 
         body = request.get_json()
         specialization_to_be_updated = Specialization.query.get_or_404(specialization_id)
@@ -99,6 +147,17 @@ class SpecializationApi(Resource):
 
     @jwt_required()
     def patch(self, specialization_id):
+        """Function for editing aspects of a specialization
+
+        Args:
+            specialization_id (int): Unique ID associated with the specialization
+
+        Raises:
+            e: 500 Internal Server Error
+
+        Returns:
+            JSON: JSON of edited specialization info, 200 resposne code
+        """
         try:
             specialization = specialization_schema.load(
                 request.get_json(), instance=Specialization.query.get_or_404(specialization_id), partial=True)
@@ -109,6 +168,17 @@ class SpecializationApi(Resource):
 
     @jwt_required()
     def delete(self, specialization_id):
+        """Deleting a specialization from the specialization table
+
+        Args:
+            specialization_id (int): Unique ID associated with the specialization
+
+        Raises:
+            e: 500 Internal Server Error 
+
+        Returns:
+            Response Code: 200
+        """
         specialization_to_delete = Specialization.query.get_or_404(specialization_id)
         try:
 
@@ -128,34 +198,55 @@ class SpecializationApi(Resource):
 
 #Endpoint that handles the SpecializaitonCourse entity and it's relationship between the specializations and its singular records
 class SpecializationCoursesApi(Resource):
-        @jwt_required()
-        def get(self):
-            try:
-                get_filters = json.loads(request.args.get('filter', default='*', type=str))
-                get_order = json.loads(request.args.get('order', default='*', type=str))
-                query = db.session.query(SpecializationCourse)
-                results = json_filter(filters=get_filters, model=SpecializationCourse, query=query).order_by(
-                    text(get_order))
-                return specializations_courses_schema.dump(results.all()), 200
-            except Exception as e:
-                raise e
+    """Class that handles the SpecializationCourse entity and the relationship between courses and specializations
 
-        @jwt_required()
-        def post(self):
-            try:
-                body = request.get_json()
-                course = SpecializationCourse(**body)
-                db.session.add(course)
-                db.session.commit()
-                return {'id': course.id}, 200
-            except Exception as e:
-                raise e
+    Args:
+        Resource: Convert to API resource (endpoint - /api/specialization-courses)
+    """
+    @jwt_required()
+    def get(self):
+        try:
+            get_filters = json.loads(request.args.get('filter', default='*', type=str))
+            get_order = json.loads(request.args.get('order', default='*', type=str))
+            query = db.session.query(SpecializationCourse)
+            results = json_filter(filters=get_filters, model=SpecializationCourse, query=query).order_by(
+                text(get_order))
+            return specializations_courses_schema.dump(results.all()), 200
+        except Exception as e:
+            raise e
+
+    @jwt_required()
+    def post(self):
+        try:
+            body = request.get_json()
+            course = SpecializationCourse(**body)
+            db.session.add(course)
+            db.session.commit()
+            return {'id': course.id}, 200
+        except Exception as e:
+            raise e
 
 
 #Endpoint that handles the SpecializaitonCourse entity and it's relationship between the specializations/courses and records within
 class SpecializationCourseApi(Resource):
+    """Class that handles the SpecializationCourse entity and its relationship betweent eh specializations/course and records within
+
+    Args:
+        Resource : Convert to API resource (endpoint - /api/specialization-course/<course_id>)
+    """
     @jwt_required()
     def get(self, course_id):
+        """Function to retrieve course information within a specialization
+
+        Args:
+            course_id (int): Unique ID associated with a course
+
+        Raises:
+            e: 500 Internal Server Error
+
+        Returns:
+            JSON: JSON of course information, 200 response code
+        """
         try:
             course = SpecializationCourse.query.get_or_404(course_id)
             return specialization_course_schema.dump(course), 200
@@ -164,6 +255,17 @@ class SpecializationCourseApi(Resource):
 
     @jwt_required()
     def patch(self, course_id):
+        """Function to edit attributes relating to a course within a specialization
+
+        Args:
+            course_id (int): Unique ID associated with a course
+
+        Raises:
+            e: 500 Internal Server Error
+
+        Returns:
+            JSON: JSOn with new info relating to a course, 200 response code
+        """
         try:
             course = specialization_course_schema.load(
                 request.get_json(), instance=SpecializationCourse.query.get_or_404(course_id), partial=True)
@@ -174,6 +276,17 @@ class SpecializationCourseApi(Resource):
 
     @jwt_required()
     def delete(self, course_id):
+        """Function to delete a course from a specialization
+
+        Args:
+            course_id (int): Unique ID associated with a course
+
+        Raises:
+            e: 500 Internal Server Error
+
+        Returns:
+            JSON: JSON of updated specialization information, 200 respopnse code
+        """
         try:
             pow_obj = SpecializationCourse.query.get_or_404(course_id)
             db.session.delete(pow_obj)

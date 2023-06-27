@@ -12,8 +12,18 @@ from schemas.UserSchema import UserRoleSchema
 
 from models.db import db
 
-#Creating a new record in the role table
 class RolesApi(Resource):
+    """Class for inserting new role into the user_role table
+
+    Args:
+        Resource (): Convert to API resource (endpoint - /api/roles)
+
+    Raises:
+        e: 500 Internal Server Error
+
+    Returns:
+        JSON: JSON of user_role_id and 200 response code
+    """
     @jwt_required()
     def post(self):
         try:
@@ -26,8 +36,13 @@ class RolesApi(Resource):
         except Exception as e:
             raise e
 
-#Updating or deleting the role status based on a given role ID
 class RoleApi(Resource):
+    """class for updating and removing roles based on role_id. 
+        ENDPOINT NOT IN USE
+
+    Args:
+        Resource : Convert to API resource
+    """
     @jwt_required()
     def patch(self, user_role_id):
         try:

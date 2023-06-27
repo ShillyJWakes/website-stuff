@@ -18,8 +18,21 @@ from schemas.UserSchema import users_schema
 
 
 class StudentPOWsApi(Resource):
+    """Class for returning all Student POWs and creation of new POW
+
+    Args:
+        Resource : Convert to API resource (endpoint - /api/pows)
+    """
     @jwt_required()
     def get(self):
+        """Retrieves all POWs and applies filters and sorting
+
+        Raises:
+            e: 500 Internal Server Error
+
+        Returns:
+            JSON: JSON of all POWs, 200 response code
+        """
         try:
             get_filters = json.loads(request.args.get('filter', default='*', type=str))
             get_order = json.loads(request.args.get('order', default='*', type=str))
@@ -32,6 +45,14 @@ class StudentPOWsApi(Resource):
 
     @jwt_required()
     def post(self):
+        """Function for creating new POW and submitting for approval
+
+        Raises:
+            e: 500 Internal Server Error
+
+        Returns:
+            JSON: POW ID and 200 response code
+        """
         try:
             body = request.get_json()
             POW.query.filter(POW.student_id == body["student_id"]).update({"status": "Void"})
@@ -63,8 +84,24 @@ class StudentPOWsApi(Resource):
 
 
 class StudentPOWApi(Resource):
+    """Class for nteracting with an individual POW
+
+    Args:
+        Resource : Convert to API resource (endpoint - /api/pow/<pow_id>)
+    """
     @jwt_required()
     def get(self, pow_id):
+        """Function for loading a POW
+
+        Args:
+            pow_id (int): Unique ID for POW from pow table in database
+
+        Raises:
+            e: 500 Internal Server Error
+
+        Returns:
+            JSON: JSON containing the POW information
+        """
         try:
             pow_obj = POW.query.get_or_404(pow_id)
             pow_schema = StudentPOWSchema()
@@ -74,6 +111,18 @@ class StudentPOWApi(Resource):
 
     @jwt_required()
     def patch(self, pow_id):
+        """Function for handling a change of status for a POW and notifying the appropriate people of the
+            status change.
+
+        Args:
+            pow_id (int): Unique ID for POW from pow table in database
+
+        Raises:
+            e: 500 Internal Server Error
+
+        Returns:
+            JSON: JSON containing the POW information
+        """
         try:
             pow = student_pow_schema.load(request.get_json(), instance=POW.query.get_or_404(pow_id), partial=True)
             admins = User.query. \
@@ -131,6 +180,17 @@ class StudentPOWApi(Resource):
 
     @jwt_required()
     def put(self, pow_id):
+        """Function for handling changes to a POW (i.e. adding classes)
+
+        Args:
+            pow_id (int): Unique ID for POW from pow table in database
+
+        Raises:
+            e: 500 Internal Server Error
+
+        Returns:
+            JSON: JSON containing the POW information
+        """
         try:
             body = request.get_json()
             pow_to_be_updated = POW.query.get_or_404(pow_id)
@@ -180,6 +240,17 @@ class StudentPOWApi(Resource):
 
     @jwt_required()
     def delete(self, pow_id):
+        """Function for deleting a POW
+
+                Args:
+            pow_id (int): Unique ID for POW from pow table in database
+
+        Raises:
+            e: 500 Internal Server Error
+
+        Returns:
+            JSON: Succesful deletion message, 200 response code
+        """
         try:
             pow_to_delete = POW.query.get_or_404(pow_id)
             # removing relationships
@@ -196,8 +267,21 @@ class StudentPOWApi(Resource):
 
 
 class StudentPOWCoursesApi(Resource):
+    """Class for handling adding courses to POW
+
+    Args:
+        Resource : Convert to API resource (endpoint - /api/pow-courses)
+    """
     @jwt_required()
     def get(self):
+        """Load courses associated with a student's POW
+
+        Raises:
+            e: 500 Internal Server Error
+
+        Returns:
+            JSON: JSON containing all of the courses for a student's POW
+        """
         try:
             get_filters = json.loads(request.args.get('filter', default='*', type=str))
             get_order = json.loads(request.args.get('order', default='*', type=str))
@@ -210,6 +294,14 @@ class StudentPOWCoursesApi(Resource):
 
     @jwt_required()
     def post(self):
+        """Function to add courses to a POW
+
+        Raises:
+            e: 500 Internal Server Error
+
+        Returns:
+            JSON: POW ID and 200 response code
+        """
         try:
             body = request.get_json()
             pow_obj = StudentPOWCourse(**body)
@@ -221,6 +313,17 @@ class StudentPOWCoursesApi(Resource):
 
 
 class StudentPOWCourseByCourseApi(Resource):
+    """Class for removing Courses from a student's POW
+
+    Args:
+        Resource: Convert to API resource (endpoint - /api/pow-course-by-course/<course_id>)
+
+    Raises:
+        e: 500 Internal Server Error
+
+    Returns:
+        JSON: Empty json and 200 response code
+    """
     @jwt_required()
     def delete(self, course_id):
         try:
@@ -233,8 +336,24 @@ class StudentPOWCourseByCourseApi(Resource):
 
 
 class StudentPOWCourseApi(Resource):
+    """Class for handling individual courses within a POW
+
+    Args:
+        Resource : Convert to API resource (endpoint /api/pow-course/<pow_course_id>)
+    """
     @jwt_required()
     def get(self, pow_course_id):
+        """function for retrieving information for individual courses
+
+        Args:
+            pow_course_id (int): Unique ID for the course in the pow_course table
+
+        Raises:
+            e: 500 Internal Server Error
+
+        Returns:
+            JSON: JSON containing pow_course info, 200 response code
+        """
         try:
             pow_obj = StudentPOWCourse.query.get_or_404(pow_course_id)
             return student_pow_course_schema.dump(pow_obj), 200
@@ -243,6 +362,18 @@ class StudentPOWCourseApi(Resource):
 
     @jwt_required()
     def patch(self, pow_course_id):
+        """Function for editing an individual course within a POW,
+            specifically assigning or changing the term.
+
+        Args:
+            pow_course_id (int): Unique ID for the course in the pow_course table
+
+        Raises:
+            e: 500 Internal Server Error
+
+        Returns:
+            JSON: JSON of updated pow_course info, 200 response code
+        """
         try:
             pow_course = student_pow_course_schema.load(
                 request.get_json(), instance=StudentPOWCourse.query.get_or_404(pow_course_id), partial=True)
@@ -253,6 +384,17 @@ class StudentPOWCourseApi(Resource):
 
     @jwt_required()
     def delete(self, pow_course_id):
+        """Function for removing a course from a POW
+
+        Args:
+            pow_course_id (int): Unique ID for the course in the pow_course table
+
+        Raises:
+            e: 500 Internal Server Error
+
+        Returns:
+            JSON: Empty JSON and 200 response code
+        """
         try:
             pow_obj = StudentPOWCourse.query.get_or_404(pow_course_id)
             db.session.delete(pow_obj)
@@ -263,6 +405,17 @@ class StudentPOWCourseApi(Resource):
 
 
 class PowActiveApi(Resource):
+    """Class for retrieving the active POW for a student
+
+    Args:
+        Resource (): Convert to API resource (endpoint - /api/active-pow/<student_id>)
+
+    Raises:
+        e: 500 Internal Server Error
+
+    Returns:
+        JSON: JSON containing POW info from pow table, 200 response code
+    """
     @jwt_required()
     def get(self, student_id):
         try:
