@@ -19,11 +19,18 @@ from models.db import db, mail
 
 
 
-
-# secure call to get logged in user's personal information
-# returns user info as JSON object'
-# for /me
 class MeApi(Resource):
+    """Class for retrieving user's personal information
+
+    Args:
+        Resource : Convert to API resource (endpoint - /api/user/me)
+
+    Raises:
+        e: 500 Internal Server Error
+
+    Returns:
+        JSON: JSON containing user info, 200 response code
+    """
     @jwt_required()
     def get(self):
         try:
@@ -33,10 +40,22 @@ class MeApi(Resource):
         except Exception as e:
             raise e
 
-#Endpoint that handles user management such as retrieving and editing
 class UsersApi(Resource):
+    """Class to handle user management, retrieving users and creating a new user
+
+    Args:
+        Resource : Convert to API resource (endpoint - /api/users)
+    """
     @jwt_required()
     def get(self):
+        """Function to retrieve all users. Populates user table for admin
+
+        Raises:
+            e: 500 Internal Server Error
+
+        Returns:
+            JSON: JSON containing all users first and last name, access ID. 200 response code
+        """
         try:
             get_filters = json.loads(request.args.get('filter', default='*', type=str))
             get_order = json.loads(request.args.get('order', default='*', type=str))
@@ -49,6 +68,14 @@ class UsersApi(Resource):
 
     @jwt_required()
     def post(self):
+        """Function for creating a new user with the admin form under Manage Users
+
+        Raises:
+            e: 500 Internal Server Error
+
+        Returns:
+            JSON: JSON of new user info, 200 response code
+        """
         try:
             body = request.get_json()
             roles = body["roles"]
@@ -83,8 +110,24 @@ class UsersApi(Resource):
 
 #Endpoint that handles user management such as retrieving, editing, and deleting on specific users
 class UserApi(Resource):
+    """Class for handling the management of individual users (retrieving, editing, deleting)
+
+    Args:
+        Resource : Convert to API resource (endpoint - /api/user/<user_id>)
+    """
     @jwt_required()
     def get(self, user_id):
+        """Function for fetching complete data for a single user
+
+        Args:
+            user_id (int): Unique ID associated with a user
+
+        Raises:
+            e: 500 Internal Server Error
+
+        Returns:
+            JSON: JSON of user info, 200 response code
+        """
         try:
             user = User.query.get_or_404(user_id)
             user_get_schema = UserSchema(exclude=("password",))
@@ -94,6 +137,17 @@ class UserApi(Resource):
 
     @jwt_required()
     def delete(self, user_id):
+        """Function to delete a user from the database
+
+        Args:
+            user_id (int): Unique ID associated with a user
+
+        Raises:
+            e: 500 Internal Server Error
+
+        Returns:
+            JSON: Empty JSON, 200 response code
+        """
         try:
             user = User.query.get_or_404(user_id)
             db.session.delete(user)
@@ -104,6 +158,17 @@ class UserApi(Resource):
 
     @jwt_required()
     def patch(self, user_id):
+        """Function for editing a user's info
+
+        Args:
+            user_id (int): Unique ID associated with a user
+
+        Raises:
+            e: 500 Internal Server Error
+
+        Returns:
+            JSON: JSON of updated user info, 200 response code
+        """
         try:
             patch_schema = UserSchema(exclude=("password",))
             user = patch_schema.load(request.get_json(), instance=User.query.get_or_404(user_id), partial=True)
@@ -114,6 +179,17 @@ class UserApi(Resource):
 
 
 class AdviserApi(Resource):
+    """Class for retrieiving students associated with an advisor
+
+    Args:
+        Resource: Convert to API resource (endpoint - /api/adviser/<adviser_id>)
+        adviser_id (int): Unique ID associated with an advisor
+    Raises:
+        e: 500 Internal Server Error
+
+    Returns:
+        JSON: JSON of all students associated with an advisor, 200 response code
+    """
     @jwt_required()
     def get(self, adviser_id):
         try:
@@ -125,6 +201,19 @@ class AdviserApi(Resource):
 
 
 class AdviserStudentApi(Resource):
+    """Class for handling removing student-advisor links.
+
+    Args:
+        Resource (): Convert to API resource (endpoint - /api/advisers/<adviser_id>/<student_id>)
+        adviser_id (int): Unique ID associated with an advisor
+        student_id (int): Unique ID associated with a student
+
+    Raises:
+        e: 500 Internal Server Error
+
+    Returns:
+        JSON: Empty JSON, 200 response code
+    """
     @jwt_required()
     def delete(self, adviser_id, student_id):
         try:
@@ -138,6 +227,17 @@ class AdviserStudentApi(Resource):
 
 
 class AdvisersApi(Resource):
+    """Class for linking a student and an advisor and inserting the record into the database
+
+    Args:
+        Resource : Convert to API resource (endpoint - /api/advisers)
+
+    Raises:
+        e: 500 Internal Server Error
+
+    Returns:
+        JSON: JSON with new student-advisor id, 200 response code
+    """
     @jwt_required()
     def post(self):
         try:
@@ -150,11 +250,19 @@ class AdvisersApi(Resource):
         except Exception as e:
             raise e
 
-#Endpoint used for multiple user uploads via a csv file upload
-# This function has been re-written, I will keep the legacy code on hand,
-# but I don't see a case in which we need to revert back 
-# especially as it didn't work and was poorly optimized. -Dennis
+
 class UploadUsersApi(Resource):
+    """Class that handles user upload via csv
+
+    Args:
+        Resource: Convert to API resource (endpoint - /api/upload_users)
+
+    Raises:
+        e: 500 Internal Server Error
+
+    Returns:
+        String: Success message and 200 response code
+    """
     @jwt_required()
     def post(self):
         # Function for iteratively inserting roles
@@ -294,6 +402,18 @@ class UploadUsersApi(Resource):
 
 #Endpoint that handles editing user roles
 class UserRoleApi(Resource):
+    """Class that handles editing of user roles
+
+    Args:
+        Resource : Convert to API resource (endpoint - /api/user_role/<user_id>)
+        user_id (int): Unique ID associated with a user
+
+    Raises:
+        e: 500 Internal Server Error
+
+    Returns:
+        JSON: JSON containing updated role info, 200 response code
+    """
     @jwt_required()
     def patch(self, user_id):
         try:
@@ -326,6 +446,18 @@ class UserRoleApi(Resource):
             raise e
 
 class UserPasswordApi(Resource):
+    """Class to handle password updates for users
+
+    Args:
+        Resource: Convert to API resource (ndpoint - /api/user_password/<user_id>)
+        user_id (int): Unique ID associated with a user
+
+    Raises:
+        e: 500 Internal Server Error
+
+    Returns:
+        JSON: JSON containing updated user info, 200 response code
+    """
     @jwt_required()
     def patch(self, user_id):
         try:
