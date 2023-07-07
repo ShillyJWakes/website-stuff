@@ -1,0 +1,20 @@
+#backend reverse proxy
+server {
+    listen 5000;
+    server_name example www.example.com 10.0.0.5;
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/var/www/sis-portal/backend/sisportal.sock;
+    }
+}
+#frontend proxy
+server {
+    listen 80;
+    server_name example www.example.com 10.0.0.5;
+    root /var/www/sis-portal/frontend;
+    index index.html;
+    location / {
+        try_files $uri$args $uri$args/ /index.html;
+    }
+}
